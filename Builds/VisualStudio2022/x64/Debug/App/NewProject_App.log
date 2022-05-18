@@ -1,0 +1,16 @@
+﻿  Main.cpp
+  MainComponent.cpp
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(5,1): error C2084: 'MainComponent::MainComponent(void)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(15): message : '{ctor}'의 이전 정의를 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(25,1): error C2084: 'MainComponent::~MainComponent(void)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(44): message : '{dtor}'의 이전 정의를 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(24,42): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(32,1): error C2084: 'void MainComponent::prepareToPlay(int,double)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(50): message : 'prepareToPlay'의 이전 정의를 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(46,54): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(43,1): error C2084: 'void MainComponent::getNextAudioBlock(const juce::AudioSourceChannelInfo &)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(54): message : 'getNextAudioBlock'의 이전 정의를 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(54,1): error C2084: 'void MainComponent::releaseResources(void)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(63): message : 'releaseResources'의 이전 정의를 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(71,1): error C2084: 'void MainComponent::resized(void)' 함수에 이미 본문이 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(70): message : 'resized'의 이전 정의를 참조하십시오.
