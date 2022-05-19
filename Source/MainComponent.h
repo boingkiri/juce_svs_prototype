@@ -8,90 +8,58 @@
     your controls and content.
 */
 class MainComponent  : public juce::AudioAppComponent, 
-    public juce::ChangeListener
+    public juce::ChangeListener,
+    private juce::Timer
 {
 public:
     //==============================================================================
-    MainComponent()
-        :state (Stopped)
-    {
-        addAndMakeVisible(&openButton);
-        openButton.setButtonText("Open...");
-        openButton.onClick = [this] { openButtonClicked(); };
-
-        addAndMakeVisible(&playButton);
-        playButton.setButtonText("Play");
-        playButton.onClick = [this] { playButtonClicked(); };
-        playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-        playButton.setEnabled(false);
-
-        addAndMakeVisible(&stopButton);
-        stopButton.setButtonText("Stop");
-        stopButton.onClick = [this] {stopButtonClicked(); };
-        stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-        stopButton.setEnabled(false);
-
-        setSize(300, 200);
-
-        formatManager.registerBasicFormats();
-
-        transportSource.addChangeListener(this);
-
-
-        setAudioChannels(0, 2);
-
-    };
-    ~MainComponent() override
-    {
-        shutdownAudio();
-    }
+    MainComponent();
+    ~MainComponent() override;
 
     //==============================================================================
-    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override
-    {
-        transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
-    }
-    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override
-    {
-        if (readerSource.get() == nullptr)
-        {
-            bufferToFill.clearActiveBufferRegion();
-            return;
-        }
-        transportSource.getNextAudioBlock(bufferToFill);
-    }
-    void releaseResources() override
-    {
-        transportSource.releaseResources();
-    }
+    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
+    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
+    void releaseResources() override;
 
     //==============================================================================
     void paint (juce::Graphics& g) override;
-    void resized() override {
-        openButton.setBounds(10, 10, getWidth() - 20, 20);
-        playButton.setBounds(10, 40, getWidth() - 20, 20);
-        stopButton.setBounds(10, 70, getWidth() - 20, 20);
-    }
+    void resized() override;
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override
     {
-        if (source == &transportSource)
-        {
-            if (transportSource.isPlaying())
-                changeState(Playing);
-            else
-                changeState(Stopped);
-        }
+        if (source == &transportSource) transportSourceChanged();
+        if (source == &thumbnail) thumbnailChanged();
     }
+
+    void transportSourceChanged()
+    {
+        if (transportSource.isPlaying()) changeState(Playing);
+        else if ((state == Stopping) || (state == Playing)) changeState(Stopped);
+        else if (state == Pausing) changeState(Paused);
+    }
+
+    void thumbnailChanged()
+    {
+        repaint();
+    }
+
+    void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+    void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
 
 private:
     //==============================================================================
     // Your private member variables go here...
+    void timerCallback() override
+    {
+        repaint();
+    }
     enum TrasportState
     {
         Stopped,
         Starting,
         Playing,
+        Pausing,
+        Paused,
         Stopping
     };
 
@@ -102,18 +70,31 @@ private:
 
             switch (state) {
             case Stopped:
+                playButton.setButtonText("Play");
+                stopButton.setButtonText("Stop");
                 stopButton.setEnabled(false);
-                playButton.setEnabled(true);
+                //playButton.setEnabled(true);
                 transportSource.setPosition(0.0);
                 break;
 
             case Starting:
-                playButton.setEnabled(false);
+                //playButton.setEnabled(false);
                 transportSource.start();
                 break;
 
             case Playing:
+                playButton.setButtonText("Pause");
+                stopButton.setButtonText("Stop");
                 stopButton.setEnabled(true);
+                break;
+
+            case Pausing:
+                transportSource.stop();
+                break;
+            
+            case Paused:
+                playButton.setButtonText("Resume");
+                stopButton.setButtonText("Return to Zero");
                 break;
 
             case Stopping:
@@ -146,22 +127,23 @@ private:
                         auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
                         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
                         playButton.setEnabled(true);
+                        thumbnail.setSource(new juce::FileInputSource(file));
                         readerSource.reset(newSource.release());
                     }
                 }
             });
-
- 
     }
 
     void playButtonClicked()
     {
-        changeState(Starting);
+        if ((state == Stopped) || (state == Paused)) changeState(Starting);
+        else if (state == Playing) changeState(Pausing);
     }
 
     void stopButtonClicked()
     {
-        changeState(Stopping);
+        if (state == Paused) changeState(Stopped);
+        else changeState(Stopping);
     }
 
     // ===================
@@ -176,6 +158,10 @@ private:
     std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
     juce::AudioTransportSource transportSource;
     TrasportState state;
+    
+    // Make window opening one or more audio sustainable. (It maintains thumbnail of audio when closing the window and reopening.)
+    juce::AudioThumbnailCache thumbnailCache; 
+    juce::AudioThumbnail thumbnail;
 
     // [members]
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

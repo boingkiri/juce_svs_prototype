@@ -1,11 +1,39 @@
 #include "MainComponent.h"
 
 //==============================================================================
-MainComponent::MainComponent()
+MainComponent::MainComponent() 
+    :state(Stopped),
+    thumbnailCache (5), // Number of thumbnails to store
+    thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
+
+    addAndMakeVisible(&openButton);
+    openButton.setButtonText("Open...");
+    openButton.onClick = [this] { openButtonClicked(); };
+
+    addAndMakeVisible(&playButton);
+    playButton.setButtonText("Play");
+    playButton.onClick = [this] { playButtonClicked(); };
+    playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+    playButton.setEnabled(false);
+
+    addAndMakeVisible(&stopButton);
+    stopButton.setButtonText("Stop");
+    stopButton.onClick = [this] {stopButtonClicked(); };
+    stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+    stopButton.setEnabled(false);
+
+    setSize(300, 200);
+
+    formatManager.registerBasicFormats(); // It makes various audio file readable
+
+    transportSource.addChangeListener(this);
+    thumbnail.addChangeListener(this);
+
+    setAudioChannels(0, 2);
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    //setSize (800, 600);
 
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
@@ -19,6 +47,8 @@ MainComponent::MainComponent()
         // Specify the number of input and output channels that we want to open
         setAudioChannels (2, 2);
     }
+
+    startTimer(40); // The Timer will be called every 40ms
 }
 
 MainComponent::~MainComponent()
@@ -37,6 +67,8 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     // but be careful - it will be called on the audio thread, not the GUI thread.
 
     // For more details, see the help for AudioProcessor::prepareToPlay()
+
+    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -47,7 +79,13 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
 
     // Right now we are not producing any data, in which case we need to clear the buffer
     // (to prevent the output of random noise)
-    bufferToFill.clearActiveBufferRegion();
+    if (readerSource.get() == nullptr)
+    {
+        bufferToFill.clearActiveBufferRegion();
+        return;
+    }
+    //bufferToFill.clearActiveBufferRegion();
+    transportSource.getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
@@ -56,6 +94,7 @@ void MainComponent::releaseResources()
     // restarted due to a setting change.
 
     // For more details, see the help for AudioProcessor::releaseResources()
+    transportSource.releaseResources();
 }
 
 //==============================================================================
@@ -65,6 +104,42 @@ void MainComponent::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     // You can add your drawing code here!
+    juce::Rectangle<int> thumbnailBounds(10, 100, getWidth() - 20, getHeight() - 120);
+
+    if (thumbnail.getNumChannels() == 0) MainComponent::paintIfNoFileLoaded(g, thumbnailBounds);
+    else MainComponent::paintIfFileLoaded(g, thumbnailBounds);
+}
+
+void MainComponent::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+{
+    g.setColour(juce::Colours::darkgrey);
+    g.fillRect(thumbnailBounds);
+    g.setColour(juce::Colours::white);
+    g.drawFittedText("No file Loaded", thumbnailBounds, juce::Justification::centred, 1);
+}
+
+void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds) 
+{
+    g.setColour(juce::Colours::white);
+    g.fillRect(thumbnailBounds);
+
+    g.setColour(juce::Colours::red);
+
+    auto audioLength = (float)thumbnail.getTotalLength();
+    thumbnail.drawChannels(
+        g,
+        thumbnailBounds,
+        0.0,
+        audioLength,
+        1.0f
+    );
+
+    g.setColour(juce::Colours::green);
+
+    auto audioPosition = (float)transportSource.getCurrentPosition();
+    auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth() + (float)thumbnailBounds.getX();
+
+    g.drawLine(drawPosition, (float)thumbnailBounds.getY(), drawPosition, (float)thumbnailBounds.getBottom(), 2.0f);
 }
 
 void MainComponent::resized()
@@ -72,4 +147,7 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
+    openButton.setBounds(10, 10, getWidth() - 20, 20);
+    playButton.setBounds(10, 40, getWidth() - 20, 20);
+    stopButton.setBounds(10, 70, getWidth() - 20, 20);
 }
