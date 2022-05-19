@@ -159,7 +159,8 @@ private:
     juce::AudioTransportSource transportSource;
     TrasportState state;
     
-    // Make window opening one or more audio sustainable. (It maintains thumbnail of audio when closing the window and reopening.)
+    // Make window opening one or more audio sustainable. 
+    // (It maintains thumbnail of audio when closing the window and reopening.)
     juce::AudioThumbnailCache thumbnailCache; 
     juce::AudioThumbnail thumbnail;
 

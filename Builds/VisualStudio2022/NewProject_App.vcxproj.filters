@@ -445,6 +445,9 @@
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>NewProject\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\MIDIEditor.cpp">
+      <Filter>NewProject\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
       <Filter>JUCE Modules\juce_audio_basics\buffers</Filter>
     </ClCompile>
@@ -2548,6 +2551,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\MainComponent.h">
+      <Filter>NewProject\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MIDIEditor.h">
       <Filter>NewProject\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h">

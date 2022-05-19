@@ -8,6 +8,8 @@
       <FILE id="nRm6Oe" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="QubSez" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
+      <FILE id="gADolQ" name="MIDIEditor.cpp" compile="1" resource="0" file="Source/MIDIEditor.cpp"/>
+      <FILE id="yQs3w3" name="MIDIEditor.h" compile="0" resource="0" file="Source/MIDIEditor.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
