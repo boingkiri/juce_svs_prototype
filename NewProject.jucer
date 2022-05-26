@@ -5,6 +5,9 @@
   <MAINGROUP id="EDEVpg" name="NewProject">
     <GROUP id="{574C002E-FBD7-6CDA-C487-F5AAEF030323}" name="Source">
       <FILE id="eezIAX" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="cLQWiU" name="MIDIProcessor.cpp" compile="1" resource="0"
+            file="Source/MIDIProcessor.cpp"/>
+      <FILE id="Ou2qn1" name="MIDIProcessor.h" compile="0" resource="0" file="Source/MIDIProcessor.h"/>
       <FILE id="nRm6Oe" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="QubSez" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

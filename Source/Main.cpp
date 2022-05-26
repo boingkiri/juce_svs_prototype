@@ -9,6 +9,7 @@
 #include <JuceHeader.h>
 #include "MainComponent.h"
 #include "MIDIEditor.h"
+#include "MIDIProcessor.h"
 
 //==============================================================================
 class NewProjectApplication  : public juce::JUCEApplication
@@ -67,7 +68,9 @@ public:
         {
             setUsingNativeTitleBar (true);
             //setContentOwned (new MainComponent(), true);
-            setContentOwned(new MIDIEditor(), true);
+            // Create midi editor
+            MIDIProcessor* tmp = new MIDIProcessor();
+            setContentOwned(new MIDIEditor(*tmp), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);

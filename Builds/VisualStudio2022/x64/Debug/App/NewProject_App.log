@@ -1,7 +1,4 @@
-﻿  MIDIEditor.cpp
-  Main.cpp
-D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MIDIEditor.cpp(77,42): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MIDIEditor.cpp(74,51): warning C4100: 'slider': 참조되지 않은 정식 매개 변수입니다.
-D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(25,42): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
-D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(47,54): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
+﻿  Main.cpp
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(26,42): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(48,54): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
   NewProject_App.vcxproj -> D:\JUCE\Programming\Simple_Prototype\NewProject\Builds\VisualStudio2022\x64\Debug\App\NewProject.exe
