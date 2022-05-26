@@ -11,6 +11,8 @@ MainComponent::MainComponent()
     savePathButton.onClick = [this] { savePathButtonClicked(); };
 
     setComponentModule(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, "MIDI", "", "...");
+    MIDIPathButton.onClick = [this] { MIDIPathButtonClicked(); };
+
     setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
 
     setSize(300, 200);
@@ -159,6 +161,7 @@ void MainComponent::resized()
     // update their positions.
     setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 0);
     setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 1);
+
     setComponentPosition(&LyricsLabel, &LyricsEditor, &LyricsButton, 2);
     
 }
@@ -168,4 +171,66 @@ void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* e
     label->setBounds(10, 10 + index * 30, 50, 20);
     editor->setBounds(75, 10 + index * 30, getWidth() - 120, 20);
     button->setBounds(getWidth() - 30, 10 + index * 30, 20, 20);
+}
+
+
+
+//=========
+void MainComponent::savePathButtonClicked()
+{
+    chooser = std::make_unique<juce::FileChooser>(
+        "Select a MIDI file to play..",
+        juce::File{},
+        "*.mid"
+        );
+    auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+
+    chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
+        {
+            auto file = fc.getResult();
+
+            if (file != juce::File{})
+            {
+                /*auto* reader = formatManager.createReaderFor(file);
+
+                if (reader != nullptr)
+                {
+                    auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
+                    transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+                    MIDIPathButton.setEnabled(true);
+                    thumbnail.setSource(new juce::FileInputSource(file));
+                    readerSource.reset(newSource.release());
+                }*/
+                const juce::String savePath = file.getFullPathName();
+                savePathEditor.setText(savePath);
+            }
+        });
+}
+
+void MainComponent::MIDIPathButtonClicked()
+{
+    chooser = std::make_unique<juce::FileChooser>(
+        "Select a MIDI file to play..",
+        juce::File{},
+        "*.mid"
+        );
+    auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+
+    chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
+        {
+            auto file = fc.getResult();
+
+            if (file != juce::File{})
+            {
+                const juce::String savePath = file.getFullPathName();
+                MIDIPathEditor.setText(savePath);
+
+                juce::FileInputStream MIDIStream(file);
+                bool read_flag = MIDIfile.readFrom(MIDIStream);
+                if (!read_flag)
+                {
+                    MIDIPathEditor.setText("Reading midi file failed");
+                }
+            }
+        });
 }

@@ -112,36 +112,8 @@ private:
     //    }
     //}
 
-    void savePathButtonClicked()
-    {
-        chooser = std::make_unique<juce::FileChooser>(
-            "Select a MIDI file to play..",
-            juce::File{},
-            "*.mid"
-            );
-        auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-
-        chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
-            {
-                auto file = fc.getResult();
-
-                if (file != juce::File{})
-                {
-                    /*auto* reader = formatManager.createReaderFor(file);
-
-                    if (reader != nullptr)
-                    {
-                        auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-                        transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-                        MIDIPathButton.setEnabled(true);
-                        thumbnail.setSource(new juce::FileInputSource(file));
-                        readerSource.reset(newSource.release());
-                    }*/
-                    const juce::String savePath = file.getFullPathName();
-                    savePathEditor.setText(savePath);
-                }
-            });
-    }
+    void savePathButtonClicked();
+    void MIDIPathButtonClicked();
 
     /*void playButtonClicked()
     {
@@ -163,6 +135,7 @@ private:
     //juce::TextButton playButton;
     juce::TextButton MIDIPathButton;
     juce::TextEditor MIDIPathEditor;
+    juce::Label MIDINoteCountLabel;
     juce::Label MIDIPathLabel;
     //juce::TextButton stopButton;
     juce::TextButton LyricsButton;
@@ -170,6 +143,8 @@ private:
     juce::Label LyricsLabel;
 
     std::unique_ptr<juce::FileChooser> chooser;
+
+    juce::MidiFile MIDIfile;
 
     // [members]
     juce::AudioFormatManager formatManager;
