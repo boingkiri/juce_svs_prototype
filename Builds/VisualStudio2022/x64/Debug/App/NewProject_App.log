@@ -1,4 +1,22 @@
 ﻿  Main.cpp
+  MIDIProcessor.cpp
+  MainComponent.cpp
+  MIDIEditor.cpp
+  include_juce_audio_basics.cpp
+  include_juce_audio_devices.cpp
+  include_juce_audio_formats.cpp
+  include_juce_audio_plugin_client_utils.cpp
+  include_juce_audio_processors.cpp
+  include_juce_audio_utils.cpp
+  include_juce_core.cpp
+  include_juce_data_structures.cpp
+  include_juce_events.cpp
+  include_juce_graphics.cpp
+  include_juce_gui_extra.cpp
+D:\JUCE\JUCE\modules\juce_audio_plugin_client\utility\juce_CheckSettingMacros.h(34,1): fatal error C1189: #error:  "You need to enable at least one plugin format!" (소스 파일 컴파일 중 ..\..\JuceLibraryCode\include_juce_audio_plugin_client_utils.cpp)
+D:\JUCE\JUCE\modules\juce_core\text\juce_CharacterFunctions.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오. (소스 파일 컴파일 중 ..\..\JuceLibraryCode\include_juce_core.cpp)
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MIDIEditor.cpp(131,42): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MIDIEditor.cpp(128,51): warning C4100: 'slider': 참조되지 않은 정식 매개 변수입니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MIDIProcessor.cpp(117,30): warning C4804: '>': 연산에 'bool' 형식을 사용하는 것은 안전하지 않습니다.
 D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(26,42): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
 D:\JUCE\Programming\Simple_Prototype\NewProject\Source\Main.cpp(48,54): warning C4100: 'commandLine': 참조되지 않은 정식 매개 변수입니다.
-  NewProject_App.vcxproj -> D:\JUCE\Programming\Simple_Prototype\NewProject\Builds\VisualStudio2022\x64\Debug\App\NewProject.exe
