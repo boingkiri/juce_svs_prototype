@@ -8,12 +8,15 @@ MainComponent::MainComponent()
 {
     
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
+    savePathEditor.setReadOnly(true);
     savePathButton.onClick = [this] { savePathButtonClicked(); };
 
     setComponentModule(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, "MIDI", "", "...");
     MIDIPathButton.onClick = [this] { MIDIPathButtonClicked(); };
+    setLabelComponent(&MIDINoteCountLabel,"Count");
 
     setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
+    setLabelComponent(&LyricsCountLabel, "Count");
 
     setSize(300, 200);
 
@@ -54,18 +57,31 @@ void MainComponent::setComponentModule(
     juce::String label_str, juce::String editor_str, juce::String button_str
 )
 {
+    setLabelComponent(label, label_str);
+    setEditorComponent(editor, editor_str);
+    setButtonComponent(button, button_str);
+}
+
+void MainComponent::setLabelComponent(juce::Label* label, juce::String label_str)
+{
     addAndMakeVisible(label);
     label->setFont(juce::Font(16.0f, juce::Font::bold));
     label->setText(label_str, juce::dontSendNotification);
     label->setJustificationType(juce::Justification::centred);
+}
 
+void MainComponent::setEditorComponent(juce::TextEditor* editor, juce::String editor_str)
+{
     addAndMakeVisible(editor);
     editor->setFont(juce::Font(16.0f, juce::Font::bold));
     editor->setText(editor_str, juce::dontSendNotification);
     editor->setJustification(juce::Justification::centred);
+}
 
+void MainComponent::setButtonComponent(juce::TextButton* button, juce::String button_str)
+{
     addAndMakeVisible(button);
-    savePathButton.setButtonText(button_str);
+    button->setButtonText(button_str);
 }
 
 
@@ -162,7 +178,13 @@ void MainComponent::resized()
     setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 0);
     setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 1);
 
+    MIDIPathEditor.setBounds(75, 40, getWidth() - 170, 20);
+    MIDINoteCountLabel.setBounds(getWidth() - 90, 40, 50, 20);
+
     setComponentPosition(&LyricsLabel, &LyricsEditor, &LyricsButton, 2);
+
+    LyricsEditor.setBounds(75, 70, getWidth() - 170, 20);
+    LyricsCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
     
 }
 
@@ -230,6 +252,25 @@ void MainComponent::MIDIPathButtonClicked()
                 if (!read_flag)
                 {
                     MIDIPathEditor.setText("Reading midi file failed");
+                }
+                else {
+                    jassert(MIDIfile.getNumTracks() == 1);
+
+                    const juce::MidiMessageSequence* midiseq = MIDIfile.getTrack(0);
+                    int numOfNote = midiseq->getNumEvents();
+
+                    //Count NoteOn event
+                    //TODO: Need to study MIDI format
+                    int count = 0;
+                    for (int i = 0; i < numOfNote; i++) 
+                    {
+                        juce::MidiMessageSequence::MidiEventHolder* walker = midiseq->getEventPointer(i);
+                        juce::MidiMessage msg = walker->message;
+                        if (msg.isNoteOn())
+                            count += 1;
+                    }
+
+                    MIDINoteCountLabel.setText(juce::String(count), juce::dontSendNotification);
                 }
             }
         });
