@@ -67,10 +67,10 @@ public:
                               DocumentWindow::allButtons)
         {
             setUsingNativeTitleBar (true);
-            //setContentOwned (new MainComponent(), true);
+            setContentOwned (new MainComponent(), true);
             // Create midi editor
-            MIDIProcessor* tmp = new MIDIProcessor();
-            setContentOwned(new MIDIEditor(*tmp), true);
+            //MIDIProcessor* tmp = new MIDIProcessor();
+            //setContentOwned(new MIDIEditor(*tmp), true);
 
            #if JUCE_IOS || JUCE_ANDROID
             setFullScreen (true);
