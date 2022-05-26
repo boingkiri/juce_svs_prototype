@@ -27,16 +27,16 @@ public:
 
     void changeListenerCallback(juce::ChangeBroadcaster* source) override
     {
-        if (source == &transportSource) transportSourceChanged();
+        //if (source == &transportSource) transportSourceChanged();
         if (source == &thumbnail) thumbnailChanged();
     }
 
-    void transportSourceChanged()
+    /*void transportSourceChanged()
     {
         if (transportSource.isPlaying()) changeState(Playing);
         else if ((state == Stopping) || (state == Playing)) changeState(Stopped);
         else if (state == Pausing) changeState(Paused);
-    }
+    }*/
 
     void thumbnailChanged()
     {
@@ -63,54 +63,54 @@ private:
         Stopping
     };
 
-    void changeState(TrasportState newState)
-    {
-        if (state != newState) {
-            state = newState;
+    //void changeState(TrasportState newState)
+    //{
+    //    if (state != newState) {
+    //        state = newState;
 
-            switch (state) {
-            case Stopped:
-                playButton.setButtonText("Play");
-                stopButton.setButtonText("Stop");
-                stopButton.setEnabled(false);
-                //playButton.setEnabled(true);
-                transportSource.setPosition(0.0);
-                break;
+    //        switch (state) {
+    //        case Stopped:
+    //            MIDIPathButton.setButtonText("Play");
+    //            stopButton.setButtonText("Stop");
+    //            stopButton.setEnabled(false);
+    //            //playButton.setEnabled(true);
+    //            transportSource.setPosition(0.0);
+    //            break;
 
-            case Starting:
-                //playButton.setEnabled(false);
-                transportSource.start();
-                break;
+    //        case Starting:
+    //            //playButton.setEnabled(false);
+    //            transportSource.start();
+    //            break;
 
-            case Playing:
-                playButton.setButtonText("Pause");
-                stopButton.setButtonText("Stop");
-                stopButton.setEnabled(true);
-                break;
+    //        case Playing:
+    //            MIDIPathButton.setButtonText("Pause");
+    //            stopButton.setButtonText("Stop");
+    //            stopButton.setEnabled(true);
+    //            break;
 
-            case Pausing:
-                transportSource.stop();
-                break;
-            
-            case Paused:
-                playButton.setButtonText("Resume");
-                stopButton.setButtonText("Return to Zero");
-                break;
+    //        case Pausing:
+    //            transportSource.stop();
+    //            break;
+    //        
+    //        case Paused:
+    //            MIDIPathButton.setButtonText("Resume");
+    //            stopButton.setButtonText("Return to Zero");
+    //            break;
 
-            case Stopping:
-                transportSource.stop();
-                break;
-            
-            }
-        }
-    }
+    //        case Stopping:
+    //            transportSource.stop();
+    //            break;
+    //        
+    //        }
+    //    }
+    //}
 
-    void openButtonClicked()
+    void savePathButtonClicked()
     {
         chooser = std::make_unique<juce::FileChooser>(
-            "Select a Wave file to play..",
+            "Select a MIDI file to play..",
             juce::File{},
-            "*.wav"
+            "*.mid"
             );
         auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
@@ -120,21 +120,23 @@ private:
 
                 if (file != juce::File{})
                 {
-                    auto* reader = formatManager.createReaderFor(file);
+                    /*auto* reader = formatManager.createReaderFor(file);
 
                     if (reader != nullptr)
                     {
                         auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
                         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-                        playButton.setEnabled(true);
+                        MIDIPathButton.setEnabled(true);
                         thumbnail.setSource(new juce::FileInputSource(file));
                         readerSource.reset(newSource.release());
-                    }
+                    }*/
+                    const juce::String savePath = file.getFullPathName();
+                    savePathEditor.setText(savePath);
                 }
             });
     }
 
-    void playButtonClicked()
+    /*void playButtonClicked()
     {
         if ((state == Stopped) || (state == Paused)) changeState(Starting);
         else if (state == Playing) changeState(Pausing);
@@ -144,12 +146,21 @@ private:
     {
         if (state == Paused) changeState(Stopped);
         else changeState(Stopping);
-    }
+    }*/
 
     // ===================
-    juce::TextButton openButton;
-    juce::TextButton playButton;
-    juce::TextButton stopButton;
+    //juce::TextButton openButton;
+    juce::TextButton savePathButton;
+    juce::TextEditor savePathEditor;
+    juce::Label savePathLabel;
+    //juce::TextButton playButton;
+    juce::TextButton MIDIPathButton;
+    juce::TextEditor MIDIPathEditor;
+    juce::Label MIDIPathLabel;
+    //juce::TextButton stopButton;
+    juce::TextButton LyricsButton;
+    juce::TextEditor LyricsEditor;
+    juce::Label LyricsPathLabel;
 
     std::unique_ptr<juce::FileChooser> chooser;
 

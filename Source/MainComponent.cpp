@@ -7,21 +7,32 @@ MainComponent::MainComponent()
     thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
 
-    addAndMakeVisible(&openButton);
-    openButton.setButtonText("Open...");
-    openButton.onClick = [this] { openButtonClicked(); };
+    addAndMakeVisible(&savePathLabel);
+    savePathLabel.setFont(juce::Font(16.0f, juce::Font::bold));
+    savePathLabel.setText("Save path: ", juce::dontSendNotification);
+    savePathLabel.setJustificationType(juce::Justification::centred);
 
-    addAndMakeVisible(&playButton);
-    playButton.setButtonText("Play");
-    playButton.onClick = [this] { playButtonClicked(); };
-    playButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-    playButton.setEnabled(false);
+    addAndMakeVisible(&savePathEditor);
+    savePathEditor.setFont(juce::Font(16.0f, juce::Font::bold));
+    savePathEditor.setText("Click me", juce::dontSendNotification);
+    savePathEditor.setJustification(juce::Justification::centred);
 
-    addAndMakeVisible(&stopButton);
-    stopButton.setButtonText("Stop");
-    stopButton.onClick = [this] {stopButtonClicked(); };
-    stopButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-    stopButton.setEnabled(false);
+    addAndMakeVisible(&savePathButton);
+    savePathButton.setButtonText("...");
+    savePathButton.onClick = [this] { savePathButtonClicked(); };
+
+
+    addAndMakeVisible(&MIDIPathButton);
+    MIDIPathButton.setButtonText("...");
+    //MIDIPathButton.onClick = [this] { playButtonClicked(); };
+    MIDIPathButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+    MIDIPathButton.setEnabled(false);
+
+    addAndMakeVisible(&LyricsButton);
+    LyricsButton.setButtonText("Stop");
+    //LyricsButton.onClick = [this] {stopButtonClicked(); };
+    LyricsButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+    LyricsButton.setEnabled(false);
 
     setSize(300, 200);
 
@@ -147,7 +158,9 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    openButton.setBounds(10, 10, getWidth() - 20, 20);
-    playButton.setBounds(10, 40, getWidth() - 20, 20);
-    stopButton.setBounds(10, 70, getWidth() - 20, 20);
+    savePathLabel.setBounds(10, 10, 50, 20);
+    savePathEditor.setBounds(75, 10, getWidth() - 150, 20);
+    savePathButton.setBounds(getWidth() - 30, 10, 20, 20);
+    //MIDIPathButton.setBounds(10, 70, getWidth() - 20, 20);
+    //LyricsButton.setBounds(10, 100, getWidth() - 20, 20);
 }
