@@ -20,6 +20,9 @@ public:
         juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
         juce::String label_str, juce::String editor_str, juce::String button_str
     );
+    void setLabelComponent(juce::Label* label, juce::String label_str);
+    void setEditorComponent(juce::TextEditor* editor, juce::String editor_str);
+    void setButtonComponent(juce::TextButton* button, juce::String button_str);
 
     //==============================================================================
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
@@ -114,6 +117,7 @@ private:
 
     void savePathButtonClicked();
     void MIDIPathButtonClicked();
+    void LyricsButtonClicked();
 
     /*void playButtonClicked()
     {
@@ -128,6 +132,7 @@ private:
     }*/
 
     // ===================
+    // GUI component
     //juce::TextButton openButton;
     juce::TextButton savePathButton;
     juce::TextEditor savePathEditor;
@@ -141,10 +146,15 @@ private:
     juce::TextButton LyricsButton;
     juce::TextEditor LyricsEditor;
     juce::Label LyricsLabel;
+    juce::Label LyricsCountLabel;
 
     std::unique_ptr<juce::FileChooser> chooser;
 
     juce::MidiFile MIDIfile;
+
+    // Font binary path
+    juce::String fontPath = "D:/JUCE/Programming/Simple_Prototype/NewProject/Source/NotoSansKR-Bold.otf";
+    int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer);
 
     // [members]
     juce::AudioFormatManager formatManager;

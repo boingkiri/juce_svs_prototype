@@ -6,14 +6,41 @@ MainComponent::MainComponent()
     thumbnailCache (5), // Number of thumbnails to store
     thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
-    
+
+
+
+    //# if JUCE_MAC || JUCE_WINDOWS
+    //    getLookAndFeel().setDefaultSansSerifTypefaceName("Arial");
+    ////getLookAndFeel().setDefaultSansSerifTypefaceName("Korean Wansung");
+    //#endif
+
+    // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
+    savePathEditor.setReadOnly(true);
     savePathButton.onClick = [this] { savePathButtonClicked(); };
 
+    // Set midi component
     setComponentModule(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, "MIDI", "", "...");
     MIDIPathButton.onClick = [this] { MIDIPathButtonClicked(); };
+    setLabelComponent(&MIDINoteCountLabel,"Count");
 
+    // Set lyrics component
     setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
+    LyricsButton.onClick = [this] { LyricsButtonClicked(); };
+    setLabelComponent(&LyricsCountLabel, "Count");
+
+    ///
+    juce::MemoryBlock fontdata(1024 * 1024 * 8);
+    int fontDataSize = readFontFile(fontPath, fontdata);
+    
+    const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
+        fontdata.getData(),
+        fontDataSize
+    );
+    juce::Font customFont = juce::Font(myfont);
+    //LyricsEditor.setfontfamil
+    LyricsEditor.setFont(customFont);
+    /// 
 
     setSize(300, 200);
 
@@ -49,23 +76,53 @@ MainComponent::~MainComponent()
     shutdownAudio();
 }
 
+int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer)
+{
+    juce::File fontbinary = juce::File(fontPath);
+    bool setReadOnly = fontbinary.setReadOnly(true);
+
+    int size = fontbinary.getSize();
+    buffer.setSize(size);
+    
+    bool readFontData = fontbinary.loadFileAsData(buffer);
+    if (!readFontData)
+    {
+        return 0;
+    }
+
+    return size;
+}
+
 void MainComponent::setComponentModule(
     juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
     juce::String label_str, juce::String editor_str, juce::String button_str
 )
 {
+    setLabelComponent(label, label_str);
+    setEditorComponent(editor, editor_str);
+    setButtonComponent(button, button_str);
+}
+
+void MainComponent::setLabelComponent(juce::Label* label, juce::String label_str)
+{
     addAndMakeVisible(label);
     label->setFont(juce::Font(16.0f, juce::Font::bold));
     label->setText(label_str, juce::dontSendNotification);
     label->setJustificationType(juce::Justification::centred);
+}
 
+void MainComponent::setEditorComponent(juce::TextEditor* editor, juce::String editor_str)
+{
     addAndMakeVisible(editor);
     editor->setFont(juce::Font(16.0f, juce::Font::bold));
     editor->setText(editor_str, juce::dontSendNotification);
     editor->setJustification(juce::Justification::centred);
+}
 
+void MainComponent::setButtonComponent(juce::TextButton* button, juce::String button_str)
+{
     addAndMakeVisible(button);
-    savePathButton.setButtonText(button_str);
+    button->setButtonText(button_str);
 }
 
 
@@ -162,7 +219,13 @@ void MainComponent::resized()
     setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 0);
     setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 1);
 
+    MIDIPathEditor.setBounds(75, 40, getWidth() - 170, 20);
+    MIDINoteCountLabel.setBounds(getWidth() - 90, 40, 50, 20);
+
     setComponentPosition(&LyricsLabel, &LyricsEditor, &LyricsButton, 2);
+
+    LyricsEditor.setBounds(75, 70, getWidth() - 170, 20);
+    LyricsCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
     
 }
 
@@ -222,8 +285,8 @@ void MainComponent::MIDIPathButtonClicked()
 
             if (file != juce::File{})
             {
-                const juce::String savePath = file.getFullPathName();
-                MIDIPathEditor.setText(savePath);
+                const juce::String midiPath = file.getFullPathName();
+                MIDIPathEditor.setText(midiPath);
 
                 juce::FileInputStream MIDIStream(file);
                 bool read_flag = MIDIfile.readFrom(MIDIStream);
@@ -231,6 +294,47 @@ void MainComponent::MIDIPathButtonClicked()
                 {
                     MIDIPathEditor.setText("Reading midi file failed");
                 }
+                else {
+                    jassert(MIDIfile.getNumTracks() == 1);
+
+                    const juce::MidiMessageSequence* midiseq = MIDIfile.getTrack(0);
+                    int numOfNote = midiseq->getNumEvents();
+
+                    //Count NoteOn event
+                    //TODO: Need to study MIDI format
+                    int count = 0;
+                    for (int i = 0; i < numOfNote; i++) 
+                    {
+                        juce::MidiMessageSequence::MidiEventHolder* walker = midiseq->getEventPointer(i);
+                        juce::MidiMessage msg = walker->message;
+                        if (msg.isNoteOn())
+                            count += 1;
+                    }
+
+                    MIDINoteCountLabel.setText(juce::String(count), juce::dontSendNotification);
+                }
+            }
+        });
+}
+
+void MainComponent::LyricsButtonClicked()
+{
+    chooser = std::make_unique<juce::FileChooser>(
+        "Select a Lyrics file to copy..",
+        juce::File{},
+        "*.txt"
+        );
+    auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+
+    chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
+        {
+            auto file = fc.getResult();
+
+            if (file != juce::File{})
+            {
+                juce::String lyricsPath = file.getFullPathName().toUTF8();
+                LyricsEditor.setText(lyricsPath);
+                //LyricsEditor.setText();
             }
         });
 }
