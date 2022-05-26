@@ -6,33 +6,12 @@ MainComponent::MainComponent()
     thumbnailCache (5), // Number of thumbnails to store
     thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
-
-    addAndMakeVisible(&savePathLabel);
-    savePathLabel.setFont(juce::Font(16.0f, juce::Font::bold));
-    savePathLabel.setText("Save path: ", juce::dontSendNotification);
-    savePathLabel.setJustificationType(juce::Justification::centred);
-
-    addAndMakeVisible(&savePathEditor);
-    savePathEditor.setFont(juce::Font(16.0f, juce::Font::bold));
-    savePathEditor.setText("Click me", juce::dontSendNotification);
-    savePathEditor.setJustification(juce::Justification::centred);
-
-    addAndMakeVisible(&savePathButton);
-    savePathButton.setButtonText("...");
+    
+    setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
     savePathButton.onClick = [this] { savePathButtonClicked(); };
 
-
-    addAndMakeVisible(&MIDIPathButton);
-    MIDIPathButton.setButtonText("...");
-    //MIDIPathButton.onClick = [this] { playButtonClicked(); };
-    MIDIPathButton.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-    MIDIPathButton.setEnabled(false);
-
-    addAndMakeVisible(&LyricsButton);
-    LyricsButton.setButtonText("Stop");
-    //LyricsButton.onClick = [this] {stopButtonClicked(); };
-    LyricsButton.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
-    LyricsButton.setEnabled(false);
+    setComponentModule(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, "MIDI", "", "...");
+    setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
 
     setSize(300, 200);
 
@@ -67,6 +46,26 @@ MainComponent::~MainComponent()
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
 }
+
+void MainComponent::setComponentModule(
+    juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
+    juce::String label_str, juce::String editor_str, juce::String button_str
+)
+{
+    addAndMakeVisible(label);
+    label->setFont(juce::Font(16.0f, juce::Font::bold));
+    label->setText(label_str, juce::dontSendNotification);
+    label->setJustificationType(juce::Justification::centred);
+
+    addAndMakeVisible(editor);
+    editor->setFont(juce::Font(16.0f, juce::Font::bold));
+    editor->setText(editor_str, juce::dontSendNotification);
+    editor->setJustification(juce::Justification::centred);
+
+    addAndMakeVisible(button);
+    savePathButton.setButtonText(button_str);
+}
+
 
 //==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
@@ -158,9 +157,15 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    savePathLabel.setBounds(10, 10, 50, 20);
-    savePathEditor.setBounds(75, 10, getWidth() - 150, 20);
-    savePathButton.setBounds(getWidth() - 30, 10, 20, 20);
-    //MIDIPathButton.setBounds(10, 70, getWidth() - 20, 20);
-    //LyricsButton.setBounds(10, 100, getWidth() - 20, 20);
+    setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 0);
+    setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 1);
+    setComponentPosition(&LyricsLabel, &LyricsEditor, &LyricsButton, 2);
+    
+}
+
+void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index)
+{
+    label->setBounds(10, 10 + index * 30, 50, 20);
+    editor->setBounds(75, 10 + index * 30, getWidth() - 120, 20);
+    button->setBounds(getWidth() - 30, 10 + index * 30, 20, 20);
 }

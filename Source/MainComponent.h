@@ -16,6 +16,11 @@ public:
     MainComponent();
     ~MainComponent() override;
 
+    void setComponentModule(
+        juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
+        juce::String label_str, juce::String editor_str, juce::String button_str
+    );
+
     //==============================================================================
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
@@ -62,6 +67,8 @@ private:
         Paused,
         Stopping
     };
+
+    void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index);
 
     //void changeState(TrasportState newState)
     //{
@@ -160,7 +167,7 @@ private:
     //juce::TextButton stopButton;
     juce::TextButton LyricsButton;
     juce::TextEditor LyricsEditor;
-    juce::Label LyricsPathLabel;
+    juce::Label LyricsLabel;
 
     std::unique_ptr<juce::FileChooser> chooser;
 
