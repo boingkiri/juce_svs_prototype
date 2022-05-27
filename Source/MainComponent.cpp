@@ -7,12 +7,21 @@ MainComponent::MainComponent()
     thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
 
+    // Set default font
+    ///
+    juce::MemoryBlock fontdata(1024 * 1024 * 8);
+    int fontDataSize = readFontFile(fontPath, fontdata);
 
+    const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
+        fontdata.getData(),
+        fontDataSize
+    );
+    //juce::Font customFont = juce::Font(myfont);
+    //LyricsEditor.setfontfamil
+    //LyricsEditor.setFont(customFont);
+    juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(myfont);
+    /// 
 
-    //# if JUCE_MAC || JUCE_WINDOWS
-    //    getLookAndFeel().setDefaultSansSerifTypefaceName("Arial");
-    ////getLookAndFeel().setDefaultSansSerifTypefaceName("Korean Wansung");
-    //#endif
 
     // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
@@ -29,19 +38,7 @@ MainComponent::MainComponent()
     LyricsButton.onClick = [this] { LyricsButtonClicked(); };
     setLabelComponent(&LyricsCountLabel, "Count");
 
-    ///
-    juce::MemoryBlock fontdata(1024 * 1024 * 8);
-    int fontDataSize = readFontFile(fontPath, fontdata);
     
-    const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
-        fontdata.getData(),
-        fontDataSize
-    );
-    juce::Font customFont = juce::Font(myfont);
-    //LyricsEditor.setfontfamil
-    LyricsEditor.setFont(customFont);
-    /// 
-
     setSize(300, 200);
 
     formatManager.registerBasicFormats(); // It makes various audio file readable
