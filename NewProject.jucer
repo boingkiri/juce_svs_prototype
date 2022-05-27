@@ -4,6 +4,19 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="EDEVpg" name="NewProject">
     <GROUP id="{574C002E-FBD7-6CDA-C487-F5AAEF030323}" name="Source">
+      <GROUP id="{E60D6A13-1457-1DFA-E5F4-825F17E5ED90}" name="PianoRoll">
+        <FILE id="R6rar5" name="GridComponent.cpp" compile="1" resource="0"
+              file="Source/GridComponent.cpp"/>
+        <FILE id="AKmwph" name="GridComponent.h" compile="0" resource="0" file="Source/GridComponent.h"/>
+        <FILE id="g7NWpF" name="KeyboardComponent.cpp" compile="1" resource="0"
+              file="Source/KeyboardComponent.cpp"/>
+        <FILE id="FPEnCz" name="KeyboardComponent.h" compile="0" resource="0"
+              file="Source/KeyboardComponent.h"/>
+        <FILE id="ylYiT3" name="ToolBarComponent.cpp" compile="1" resource="0"
+              file="Source/ToolBarComponent.cpp"/>
+        <FILE id="NlsIDN" name="ToolBarComponent.h" compile="0" resource="0"
+              file="Source/ToolBarComponent.h"/>
+      </GROUP>
       <FILE id="eezIAX" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="cLQWiU" name="MIDIProcessor.cpp" compile="1" resource="0"
             file="Source/MIDIProcessor.cpp"/>
