@@ -23,6 +23,7 @@ MainComponent::MainComponent()
     pianoRollComponent = std::make_unique<PianoRollComponent>();
     //this->addChildComponent(*pianoRollComponent, -1);
     addAndMakeVisible(*pianoRollComponent);
+    pianoRollComponent->setBounds(0, 200, 900, 400);
 
     // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
@@ -41,7 +42,7 @@ MainComponent::MainComponent()
     setLabelComponent(&LyricsCountLabel, "Count");
 
     
-    setSize(600, 400);
+    setSize(900, 600);
 
     formatManager.registerBasicFormats(); // It makes various audio file readable
 
