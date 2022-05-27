@@ -16,9 +16,6 @@ MainComponent::MainComponent()
         fontdata.getData(),
         fontDataSize
     );
-    //juce::Font customFont = juce::Font(myfont);
-    //LyricsEditor.setfontfamil
-    //LyricsEditor.setFont(customFont);
     juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(myfont);
     /// 
 
@@ -36,6 +33,7 @@ MainComponent::MainComponent()
     // Set lyrics component
     setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
     LyricsButton.onClick = [this] { LyricsButtonClicked(); };
+    LyricsEditor.addListener(this);
     setLabelComponent(&LyricsCountLabel, "Count");
 
     
@@ -335,4 +333,11 @@ void MainComponent::LyricsButtonClicked()
                 //LyricsEditor.setText();
             }
         });
+}
+
+void MainComponent::textEditorTextChanged(juce::TextEditor& texteditor)
+{
+    juce::String editorValue = texteditor.getTextValue().getValue();
+    int lyricsLength = editorValue.length();
+    LyricsCountLabel.setText(juce::String(lyricsLength), juce::dontSendNotification);
 }

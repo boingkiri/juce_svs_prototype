@@ -1,2 +1,6 @@
-./Builds/VisualStudio2022/.vs
-./Builds/VisualStudio2022/x64
+Builds/VisualStudio2022/.vs
+Builds/VisualStudio2022/x64
+
+*.log
+*.obj
+*.res

@@ -9,7 +9,8 @@
 */
 class MainComponent  : public juce::AudioAppComponent, 
     public juce::ChangeListener,
-    private juce::Timer
+    private juce::Timer,
+    public juce::TextEditor::Listener
 {
 public:
     //==============================================================================
@@ -53,6 +54,9 @@ public:
 
     void paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
     void paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds);
+
+    // Add listener function for lyrics
+    void textEditorTextChanged(juce::TextEditor& texteditor) override;
 
 private:
     //==============================================================================
@@ -145,6 +149,7 @@ private:
     //juce::TextButton stopButton;
     juce::TextButton LyricsButton;
     juce::TextEditor LyricsEditor;
+    //static juce::TextEditor LyricsEditor;
     juce::Label LyricsLabel;
     juce::Label LyricsCountLabel;
 
