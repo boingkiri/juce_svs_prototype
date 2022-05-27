@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "PianoRollComponent.h"
 
 //==============================================================================
 /*
@@ -136,7 +137,11 @@ private:
     }*/
 
     // ===================
+    
     // GUI component
+    // Piano Roll Component
+    std::unique_ptr<PianoRollComponent> pianoRollComponent;
+    //PianoRollComponent pianoRollComponent;
     //juce::TextButton openButton;
     juce::TextButton savePathButton;
     juce::TextEditor savePathEditor;

@@ -9,3 +9,26 @@
 */
 
 #pragma once
+#include <JuceHeader.h>
+#include "ToolBarComponent.h"
+#include "KeyboardComponent.h"
+#include "GridComponent.h"
+
+class PianoRollComponent : 
+    public juce::Component
+{
+public:
+    PianoRollComponent();
+    ~PianoRollComponent() override;
+
+    //==============================================================================
+    void paint(juce::Graphics& g) override;
+    void resized() override;
+
+private:
+    std::unique_ptr<KeyboardComponent> keyboardComponent;
+    std::unique_ptr<GridComponent> gridComponent;
+    std::unique_ptr<ToolBarComponent> toolBarComponent;
+
+    std::unique_ptr<juce::MidiKeyboardState> keyboardState;
+};

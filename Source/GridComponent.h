@@ -9,3 +9,14 @@
 */
 
 #pragma once
+
+#include <JuceHeader.h>
+
+class GridComponent :
+    public juce::Component
+{
+public:
+    GridComponent();
+    ~GridComponent() override;
+private:
+};

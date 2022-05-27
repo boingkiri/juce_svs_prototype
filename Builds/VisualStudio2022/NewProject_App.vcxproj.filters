@@ -448,6 +448,9 @@
     <ClCompile Include="..\..\Source\KeyboardComponent.cpp">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\PianoRollComponent.cpp">
+      <Filter>NewProject\Source\PianoRoll</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\ToolBarComponent.cpp">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClCompile>
@@ -2569,6 +2572,9 @@
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\KeyboardComponent.h">
+      <Filter>NewProject\Source\PianoRoll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PianoRollComponent.h">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ToolBarComponent.h">

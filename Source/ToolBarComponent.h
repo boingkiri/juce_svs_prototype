@@ -9,3 +9,13 @@
 */
 
 #pragma once
+#include <JuceHeader.h>
+
+class ToolBarComponent :
+    public juce::Component
+{
+public:
+    ToolBarComponent();
+    ~ToolBarComponent() override;
+private:
+};

@@ -12,6 +12,10 @@
               file="Source/KeyboardComponent.cpp"/>
         <FILE id="FPEnCz" name="KeyboardComponent.h" compile="0" resource="0"
               file="Source/KeyboardComponent.h"/>
+        <FILE id="FRgI1p" name="PianoRollComponent.cpp" compile="1" resource="0"
+              file="Source/PianoRollComponent.cpp"/>
+        <FILE id="khMnoX" name="PianoRollComponent.h" compile="0" resource="0"
+              file="Source/PianoRollComponent.h"/>
         <FILE id="ylYiT3" name="ToolBarComponent.cpp" compile="1" resource="0"
               file="Source/ToolBarComponent.cpp"/>
         <FILE id="NlsIDN" name="ToolBarComponent.h" compile="0" resource="0"

@@ -8,7 +8,6 @@ MainComponent::MainComponent()
 {
 
     // Set default font
-    ///
     juce::MemoryBlock fontdata(1024 * 1024 * 8);
     int fontDataSize = readFontFile(fontPath, fontdata);
 
@@ -19,6 +18,10 @@ MainComponent::MainComponent()
     juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(myfont);
     /// 
 
+    // Set PianoRollComponent
+    //addAndMakeVisible(pianoRollComponent);
+    pianoRollComponent = std::make_unique<PianoRollComponent>();
+    this->addChildComponent(*pianoRollComponent, -1);
 
     // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
@@ -68,6 +71,7 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
+    this->removeAllChildren();
     shutdownAudio();
 }
 
@@ -168,10 +172,11 @@ void MainComponent::paint (juce::Graphics& g)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
     // You can add your drawing code here!
-    juce::Rectangle<int> thumbnailBounds(10, 100, getWidth() - 20, getHeight() - 120);
+    //juce::Rectangle<int> thumbnailBounds(10, 100, getWidth() - 20, getHeight() - 120);
 
-    if (thumbnail.getNumChannels() == 0) MainComponent::paintIfNoFileLoaded(g, thumbnailBounds);
-    else MainComponent::paintIfFileLoaded(g, thumbnailBounds);
+    //if (thumbnail.getNumChannels() == 0) MainComponent::paintIfNoFileLoaded(g, thumbnailBounds);
+    //else MainComponent::paintIfFileLoaded(g, thumbnailBounds);
+
 }
 
 void MainComponent::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
@@ -222,6 +227,7 @@ void MainComponent::resized()
     LyricsEditor.setBounds(75, 70, getWidth() - 170, 20);
     LyricsCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
     
+    pianoRollComponent->setBounds(getLocalBounds().removeFromTop(150));
 }
 
 void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index)

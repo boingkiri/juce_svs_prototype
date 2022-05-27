@@ -9,3 +9,14 @@
 */
 
 #include "KeyboardComponent.h"
+
+KeyboardComponent::KeyboardComponent(
+    juce::MidiKeyboardState& state,
+    juce::KeyboardComponentBase::Orientation orientation):
+    MidiKeyboardComponent(state, orientation)
+{
+}
+
+KeyboardComponent::~KeyboardComponent()
+{
+}

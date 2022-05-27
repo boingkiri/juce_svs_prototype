@@ -9,3 +9,12 @@
 */
 
 #include "GridComponent.h"
+GridComponent::GridComponent()
+{
+
+}
+
+GridComponent::~GridComponent()
+{
+
+}

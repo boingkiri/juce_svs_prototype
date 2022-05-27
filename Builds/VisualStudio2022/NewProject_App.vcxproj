@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\GridComponent.cpp"/>
     <ClCompile Include="..\..\Source\KeyboardComponent.cpp"/>
+    <ClCompile Include="..\..\Source\PianoRollComponent.cpp"/>
     <ClCompile Include="..\..\Source\ToolBarComponent.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MIDIProcessor.cpp"/>
@@ -2109,6 +2110,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\GridComponent.h"/>
     <ClInclude Include="..\..\Source\KeyboardComponent.h"/>
+    <ClInclude Include="..\..\Source\PianoRollComponent.h"/>
     <ClInclude Include="..\..\Source\ToolBarComponent.h"/>
     <ClInclude Include="..\..\Source\MIDIProcessor.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>

@@ -9,3 +9,11 @@
 */
 
 #include "ToolBarComponent.h"
+ToolBarComponent::ToolBarComponent()
+{
+
+}
+ToolBarComponent::~ToolBarComponent()
+{
+
+}
