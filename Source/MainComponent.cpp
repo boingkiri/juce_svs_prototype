@@ -338,6 +338,9 @@ void MainComponent::LyricsButtonClicked()
 void MainComponent::textEditorTextChanged(juce::TextEditor& texteditor)
 {
     juce::String editorValue = texteditor.getTextValue().getValue();
-    int lyricsLength = editorValue.length();
+    
+    juce::StringRef whitespace = " ";
+    int lyricsLength = editorValue.removeCharacters(whitespace).length();
+
     LyricsCountLabel.setText(juce::String(lyricsLength), juce::dontSendNotification);
 }
