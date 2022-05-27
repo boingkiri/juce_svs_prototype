@@ -21,7 +21,8 @@ MainComponent::MainComponent()
     // Set PianoRollComponent
     //addAndMakeVisible(pianoRollComponent);
     pianoRollComponent = std::make_unique<PianoRollComponent>();
-    this->addChildComponent(*pianoRollComponent, -1);
+    //this->addChildComponent(*pianoRollComponent, -1);
+    addAndMakeVisible(*pianoRollComponent);
 
     // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
@@ -40,7 +41,7 @@ MainComponent::MainComponent()
     setLabelComponent(&LyricsCountLabel, "Count");
 
     
-    setSize(300, 200);
+    setSize(600, 400);
 
     formatManager.registerBasicFormats(); // It makes various audio file readable
 
@@ -227,7 +228,8 @@ void MainComponent::resized()
     LyricsEditor.setBounds(75, 70, getWidth() - 170, 20);
     LyricsCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
     
-    pianoRollComponent->setBounds(getLocalBounds().removeFromTop(150));
+    //pianoRollComponent->setBounds(getLocalBounds().removeFromTop(150));
+    pianoRollComponent->setBounds(getLocalBounds());
 }
 
 void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index)

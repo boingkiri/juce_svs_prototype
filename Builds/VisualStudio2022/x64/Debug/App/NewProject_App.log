@@ -1,3 +1,6 @@
-﻿  PianoRollComponent.cpp
-D:\JUCE\Programming\Simple_Prototype\NewProject\Source\PianoRollComponent.cpp(39,48): warning C4100: 'g': 참조되지 않은 정식 매개 변수입니다.
+﻿  MainComponent.cpp
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(79,46): warning C4458: 'fontPath' 선언은 클래스 멤버를 숨깁니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.h(166,18): message : 'MainComponent::fontPath' 선언을 참조하십시오.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(84,14): warning C4244: '초기화 중': 'juce::int64'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+D:\JUCE\Programming\Simple_Prototype\NewProject\Source\MainComponent.cpp(82,10): warning C4189: 'setReadOnly': 지역 변수가 초기화되었으나 참조되지 않았습니다.
   NewProject_App.vcxproj -> D:\JUCE\Programming\Simple_Prototype\NewProject\Builds\VisualStudio2022\x64\Debug\App\NewProject.exe

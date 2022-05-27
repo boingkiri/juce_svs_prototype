@@ -16,8 +16,6 @@ PianoRollComponent::PianoRollComponent()
     gridComponent = std::make_unique<GridComponent>();
     toolBarComponent = std::make_unique<ToolBarComponent>();
     
-    
-    
     addAndMakeVisible(*gridComponent);
     addAndMakeVisible(*toolBarComponent);
 
@@ -28,7 +26,10 @@ PianoRollComponent::PianoRollComponent()
     );
     keyboardComponent->setBlackNoteWidthProportion(1);
     addAndMakeVisible(*keyboardComponent);
-    //setSize(600, 400);
+
+    addAndMakeVisible(button);
+    button.setButtonText(juce::String("AAAAA"));
+    setSize(150, 100);
 }
 
 PianoRollComponent::~PianoRollComponent()
@@ -43,7 +44,8 @@ void PianoRollComponent::paint(juce::Graphics& g)
 void PianoRollComponent::resized() 
 {
     auto r = getBounds();
-    toolBarComponent->setBounds(r.removeFromTop(40));
-    //keyboardComponent->setBounds(r.removeFromLeft(50));
+    //button.setBounds(r.removeFromTop(40));
+    toolBarComponent->setBounds(r.removeFromTop(100));
+    keyboardComponent->setBounds(r.removeFromLeft(110));
     gridComponent->setBounds(r);
 }

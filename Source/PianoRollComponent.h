@@ -31,4 +31,6 @@ private:
     std::unique_ptr<ToolBarComponent> toolBarComponent;
 
     std::unique_ptr<juce::MidiKeyboardState> keyboardState;
+
+    juce::TextButton button;
 };
