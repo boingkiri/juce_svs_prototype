@@ -35,10 +35,7 @@ MainComponent::MainComponent()
 
     // Set lyrics component
     setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
-<<<<<<< HEAD
     LyricsButton.onClick = [this] { LyricsButtonClicked(); };
-=======
->>>>>>> 04afa50d44680be8c00a0d8e4e54fbc8e62007ab
     setLabelComponent(&LyricsCountLabel, "Count");
 
     
@@ -313,7 +310,7 @@ void MainComponent::MIDIPathButtonClicked()
 
                     MIDINoteCountLabel.setText(juce::String(count), juce::dontSendNotification);
                 }
-<<<<<<< HEAD
+
             }
         });
 }
@@ -336,8 +333,6 @@ void MainComponent::LyricsButtonClicked()
                 juce::String lyricsPath = file.getFullPathName().toUTF8();
                 LyricsEditor.setText(lyricsPath);
                 //LyricsEditor.setText();
-=======
->>>>>>> 04afa50d44680be8c00a0d8e4e54fbc8e62007ab
             }
         });
 }
