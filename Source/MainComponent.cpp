@@ -9,7 +9,6 @@ MainComponent::MainComponent()
 
     // Set default font
     juce::MemoryBlock fontdata(1024 * 1024 * 8);
-    //int fontDataSize = readFontFile(fontPath, fontdata);
 
 
     const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(

@@ -27,8 +27,8 @@ PianoRollComponent::PianoRollComponent()
     keyboardComponent->setBlackNoteWidthProportion(1);
     addAndMakeVisible(*keyboardComponent);
 
-    addAndMakeVisible(button);
-    button.setButtonText(juce::String("AAAAA"));
+    //addAndMakeVisible(button);
+    //button.setButtonText(juce::String("AAAAA"));
     setSize(150, 100);
 }
 
@@ -53,7 +53,6 @@ void PianoRollComponent::resized()
 
 void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juce::MouseWheelDetails& wheel)
 {   
-    DBG("Please");
     if (toolBarComponent->isMouseOver())
         return;
     auto amount = (keyboardComponent->getOrientation() == KeyboardComponent::horizontalKeyboard && wheel.deltaX != 0)
@@ -61,7 +60,8 @@ void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juc
             : -wheel.deltaY);
 
     //keyboardComponent->setLowestVisibleKey(keyboardComponent->firstkey - amount * keyboardComponent->keyWidth);
-    keyboardComponent->setLowestVisibleKey(keyboardComponent->getKeyStartPosition(0) - amount * keyboardComponent->keyWidth);
+    keyboardComponent->setLowestVisibleKey(keyboardComponent->getLowestVisibleKey() - amount * keyboardComponent->keyWidth);
 
-    gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
+    //gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
+    gridComponent->updateNoteLineRanges(keyboardComponent->getLowestVisibleKey());
 }

@@ -14,7 +14,7 @@
 #include "KeyboardComponent.h"
 #include "GridComponent.h"
 
-class PianoRollComponent : 
+class PianoRollComponent :
     public juce::Component
 {
 public:
@@ -33,5 +33,5 @@ private:
 
     std::unique_ptr<juce::MidiKeyboardState> keyboardState;
 
-    juce::TextButton button;
+    //juce::TextButton button;
 };

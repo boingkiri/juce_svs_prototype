@@ -23,6 +23,8 @@ public:
     );
     ~KeyboardComponent() override;
 
+    void mouseWheelMove(const juce::MouseEvent&, const juce::MouseWheelDetails&) override;
+
     float keyWidth = constants::noteLineWidth;
     int scrollButtonWidth = 0;
     //juce::Range<float> getKeyPosition(int midiNoteNumber, float targetKeyWidth);

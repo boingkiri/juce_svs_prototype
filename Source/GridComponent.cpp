@@ -23,7 +23,7 @@ GridComponent::~GridComponent()
 
 void GridComponent::updateNoteLineRanges(float firstKeyStartPosition)
 {
-    
+    DBG(firstKeyStartPosition);
 
     for (int i = 0; i <= 127; ++i)
     {   
