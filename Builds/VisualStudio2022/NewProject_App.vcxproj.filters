@@ -2568,6 +2568,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Constants.h">
+      <Filter>NewProject\Source\PianoRoll</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\GridComponent.h">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClInclude>

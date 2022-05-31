@@ -339,7 +339,13 @@ void MainComponent::LyricsButtonClicked()
             {
                 juce::String lyricsPath = file.getFullPathName().toUTF8();
                 LyricsEditor.setText(lyricsPath);
-                //LyricsEditor.setText();
+
+                juce::FileInputStream inputStream(file);
+                while (!inputStream.isExhausted()) 
+                {
+                    auto line = inputStream.readNextLine();
+                    LyricsEditor.setText(line);
+                }
             }
         });
 }

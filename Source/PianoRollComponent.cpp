@@ -48,4 +48,18 @@ void PianoRollComponent::resized()
     toolBarComponent->setBounds(r.removeFromTop(100));
     keyboardComponent->setBounds(r.removeFromLeft(110));
     gridComponent->setBounds(r);
+    gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
+}
+
+void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juce::MouseWheelDetails& wheel)
+{
+    if (toolBarComponent->isMouseOver())
+        return;
+    auto amount = (keyboardComponent->getOrientation() == KeyboardComponent::horizontalKeyboard && wheel.deltaX != 0)
+        ? wheel.deltaX : (keyboardComponent->getOrientation() == KeyboardComponent::verticalKeyboardFacingLeft ? wheel.deltaY
+            : -wheel.deltaY);
+
+    keyboardComponent->setLowestVisibleKey(keyboardComponent->firstkey - amount * keyboardComponent->keyWidth);
+
+    gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
 }

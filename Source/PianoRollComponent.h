@@ -24,6 +24,7 @@ public:
     //==============================================================================
     void paint(juce::Graphics& g) override;
     void resized() override;
+    void mouseWheelMove(const juce::MouseEvent&, const juce::MouseWheelDetails&) override;
 
 private:
     std::unique_ptr<KeyboardComponent> keyboardComponent;

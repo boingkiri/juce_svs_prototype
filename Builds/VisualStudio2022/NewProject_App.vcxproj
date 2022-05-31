@@ -2108,6 +2108,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Constants.h"/>
     <ClInclude Include="..\..\Source\GridComponent.h"/>
     <ClInclude Include="..\..\Source\KeyboardComponent.h"/>
     <ClInclude Include="..\..\Source\PianoRollComponent.h"/>

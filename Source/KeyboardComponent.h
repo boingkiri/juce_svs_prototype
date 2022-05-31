@@ -11,6 +11,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "Constants.h"
 
 class KeyboardComponent :
     public juce::MidiKeyboardComponent
@@ -22,9 +23,12 @@ public:
         juce::KeyboardComponentBase::Orientation
     );
     ~KeyboardComponent() override;
+
+    float keyWidth = constants::noteLineWidth;
+    int scrollButtonWidth = 0;
     //juce::Range<float> getKeyPosition(int midiNoteNumber, float targetKeyWidth);
     //juce::Range<float> getRectangleForKey(int midiNoteNumber, float targetKeyWidth);
 
-//private:
+
 
 };
