@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="EDEVpg" name="NewProject">
     <GROUP id="{574C002E-FBD7-6CDA-C487-F5AAEF030323}" name="Source">
+      <FILE id="M62zjv" name="NotoSansKR-Bold.otf" compile="0" resource="1"
+            file="Source/NotoSansKR-Bold.otf"/>
       <GROUP id="{E60D6A13-1457-1DFA-E5F4-825F17E5ED90}" name="PianoRoll">
         <FILE id="rSQc1a" name="Constants.h" compile="0" resource="0" file="Source/Constants.h"/>
         <FILE id="R6rar5" name="GridComponent.cpp" compile="1" resource="0"

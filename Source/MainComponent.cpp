@@ -9,14 +9,14 @@ MainComponent::MainComponent()
 
     // Set default font
     juce::MemoryBlock fontdata(1024 * 1024 * 8);
-    int fontDataSize = readFontFile(fontPath, fontdata);
+    //int fontDataSize = readFontFile(fontPath, fontdata);
+
 
     const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
-        fontdata.getData(),
-        fontDataSize
+        BinaryData::NotoSansKRBold_otf,
+        BinaryData::NotoSansKRBold_otfSize
     );
     juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(myfont);
-    /// 
 
     // Set PianoRollComponent
     //addAndMakeVisible(pianoRollComponent);
@@ -77,22 +77,22 @@ MainComponent::~MainComponent()
     shutdownAudio();
 }
 
-int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer)
-{
-    juce::File fontbinary = juce::File(fontPath);
-    bool setReadOnly = fontbinary.setReadOnly(true);
-
-    int size = fontbinary.getSize();
-    buffer.setSize(size);
-    
-    bool readFontData = fontbinary.loadFileAsData(buffer);
-    if (!readFontData)
-    {
-        return 0;
-    }
-
-    return size;
-}
+//int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer)
+//{
+//    juce::File fontbinary = juce::File(fontPath);
+//    bool setReadOnly = fontbinary.setReadOnly(true);
+//
+//    int size = fontbinary.getSize();
+//    //buffer.setSize(size);
+//    
+//    bool readFontData = fontbinary.loadFileAsData(buffer);
+//    if (!readFontData)
+//    {
+//        return 0;
+//    }
+//
+//    return size;
+//}
 
 void MainComponent::setComponentModule(
     juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,

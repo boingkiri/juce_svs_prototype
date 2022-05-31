@@ -12,7 +12,7 @@
 
 PianoRollComponent::PianoRollComponent()
 {
-    
+
     gridComponent = std::make_unique<GridComponent>();
     toolBarComponent = std::make_unique<ToolBarComponent>();
     
@@ -52,14 +52,16 @@ void PianoRollComponent::resized()
 }
 
 void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juce::MouseWheelDetails& wheel)
-{
+{   
+    DBG("Please");
     if (toolBarComponent->isMouseOver())
         return;
     auto amount = (keyboardComponent->getOrientation() == KeyboardComponent::horizontalKeyboard && wheel.deltaX != 0)
         ? wheel.deltaX : (keyboardComponent->getOrientation() == KeyboardComponent::verticalKeyboardFacingLeft ? wheel.deltaY
             : -wheel.deltaY);
 
-    keyboardComponent->setLowestVisibleKey(keyboardComponent->firstkey - amount * keyboardComponent->keyWidth);
+    //keyboardComponent->setLowestVisibleKey(keyboardComponent->firstkey - amount * keyboardComponent->keyWidth);
+    keyboardComponent->setLowestVisibleKey(keyboardComponent->getKeyStartPosition(0) - amount * keyboardComponent->keyWidth);
 
     gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
 }

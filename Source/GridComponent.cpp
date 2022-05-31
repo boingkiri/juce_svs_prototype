@@ -23,8 +23,10 @@ GridComponent::~GridComponent()
 
 void GridComponent::updateNoteLineRanges(float firstKeyStartPosition)
 {
+    
+
     for (int i = 0; i <= 127; ++i)
-    {
+    {   
         noteLineRanges[i]->setStart(getHeight() - firstKeyStartPosition - (i + 1) * constants::noteLineWidth);
         noteLineRanges[i]->setLength(constants::noteLineWidth);
     }

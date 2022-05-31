@@ -8,8 +8,6 @@
 
 #include <JuceHeader.h>
 #include "MainComponent.h"
-#include "MIDIEditor.h"
-#include "MIDIProcessor.h"
 
 //==============================================================================
 class NewProjectApplication  : public juce::JUCEApplication

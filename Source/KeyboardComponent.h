@@ -15,7 +15,6 @@
 
 class KeyboardComponent :
     public juce::MidiKeyboardComponent
-    //public juce::Component
 {
 public:
     KeyboardComponent(
