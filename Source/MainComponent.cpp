@@ -7,10 +7,7 @@ MainComponent::MainComponent()
     thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
 
-    // Set default font
-    juce::MemoryBlock fontdata(1024 * 1024 * 8);
-
-
+;   // Set default font
     const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
         BinaryData::NotoSansKRBold_otf,
         BinaryData::NotoSansKRBold_otfSize
@@ -22,7 +19,12 @@ MainComponent::MainComponent()
     pianoRollComponent = std::make_unique<PianoRollComponent>();
     //this->addChildComponent(*pianoRollComponent, -1);
     addAndMakeVisible(*pianoRollComponent);
-    pianoRollComponent->setBounds(0, 200, 900, 400);
+    
+    // Set Configure and send button
+    setButtonComponent(&configButton, "Config");
+    setButtonComponent(&sendButton, "Send");
+    sendButton.onClick = [this] {sendButtonClicked(); };
+    //sendButton.setEnabled(false);
 
     // Set save component
     setComponentModule(&savePathLabel, &savePathEditor, &savePathButton, "Save..", "", "...");
@@ -35,12 +37,13 @@ MainComponent::MainComponent()
     setLabelComponent(&MIDINoteCountLabel,"Count");
 
     // Set lyrics component
-    setComponentModule(&LyricsLabel, &LyricsEditor, &LyricsButton, "Lyrics", "", "...");
-    LyricsButton.onClick = [this] { LyricsButtonClicked(); };
-    LyricsEditor.addListener(this);
-    setLabelComponent(&LyricsCountLabel, "Count");
+    setComponentModule(&lyricsLabel, &lyricsEditor, &lyricsButton, "Lyrics", "", "...");
+    lyricsButton.onClick = [this] { LyricsButtonClicked(); };
+    lyricsEditor.addListener(this);
+    setLabelComponent(&lyricsCountLabel, "Count");
 
-    
+    // Make sure you set the size of the component after
+    // you add any child components.
     setSize(900, 600);
 
     formatManager.registerBasicFormats(); // It makes various audio file readable
@@ -49,9 +52,6 @@ MainComponent::MainComponent()
     thumbnail.addChangeListener(this);
 
     setAudioChannels(0, 2);
-    // Make sure you set the size of the component after
-    // you add any child components.
-    //setSize (800, 600);
 
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
@@ -76,22 +76,11 @@ MainComponent::~MainComponent()
     shutdownAudio();
 }
 
-//int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer)
+//void MainComponent::setNetworkClient() 
 //{
-//    juce::File fontbinary = juce::File(fontPath);
-//    bool setReadOnly = fontbinary.setReadOnly(true);
-//
-//    int size = fontbinary.getSize();
-//    //buffer.setSize(size);
-//    
-//    bool readFontData = fontbinary.loadFileAsData(buffer);
-//    if (!readFontData)
-//    {
-//        return 0;
-//    }
-//
-//    return size;
+//    network_test();
 //}
+
 
 void MainComponent::setComponentModule(
     juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
@@ -217,19 +206,27 @@ void MainComponent::resized()
     // This is called when the MainContentComponent is resized.
     // If you add any child components, this is where you should
     // update their positions.
-    setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 0);
-    setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 1);
+    auto r = getBounds();
 
-    MIDIPathEditor.setBounds(75, 40, getWidth() - 170, 20);
-    MIDINoteCountLabel.setBounds(getWidth() - 90, 40, 50, 20);
+    configButton.setBounds(10, 10, 50, 20);
+    sendButton.setBounds(getWidth() - 70, 10, 50, 20);
 
-    setComponentPosition(&LyricsLabel, &LyricsEditor, &LyricsButton, 2);
-
-    LyricsEditor.setBounds(75, 70, getWidth() - 170, 20);
-    LyricsCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
+    setComponentPosition(&savePathLabel, &savePathEditor, &savePathButton, 1);
+    setComponentPosition(&MIDIPathLabel, &MIDIPathEditor, &MIDIPathButton, 2);
     
-    //pianoRollComponent->setBounds(getLocalBounds().removeFromTop(150));
-    pianoRollComponent->setBounds(getLocalBounds());
+    MIDIPathEditor.setBounds(75, 70, getWidth() - 170, 20);
+    MIDINoteCountLabel.setBounds(getWidth() - 90, 70, 50, 20);
+
+    setComponentPosition(&lyricsLabel, &lyricsEditor, &lyricsButton, 3);
+
+    lyricsEditor.setBounds(75, 100, getWidth() - 170, 20);
+    lyricsCountLabel.setBounds(getWidth() - 90, 100, 50, 20);
+
+    r.removeFromTop(80);
+    
+    pianoRollComponent->setBounds(r);
+    //pianoRollComponent->setBounds(getBounds().removeFromBottom(400));
+    //pianoRollComponent->setBounds(getLocalBounds());
 }
 
 void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index)
@@ -337,16 +334,40 @@ void MainComponent::LyricsButtonClicked()
             if (file != juce::File{})
             {
                 juce::String lyricsPath = file.getFullPathName().toUTF8();
-                LyricsEditor.setText(lyricsPath);
+                lyricsEditor.setText(lyricsPath);
 
                 juce::FileInputStream inputStream(file);
                 while (!inputStream.isExhausted()) 
                 {
                     auto line = inputStream.readNextLine();
-                    LyricsEditor.setText(line);
+                    lyricsEditor.setText(line);
                 }
             }
         });
+}
+
+void MainComponent::sendButtonClicked() 
+{
+    juce::Value lyricsString = lyricsEditor.getTextValue();
+    std::string rawLyricsString = lyricsString.toString().toStdString();
+
+    /*std::wstring convertedLyricsString;
+
+    convertedLyricsString.assign(rawLyricsString.begin(), rawLyricsString.end());*/
+
+    DBG(rawLyricsString);
+    cpr::File midiFile = cpr::File{ MIDIPathEditor.getTextValue().toString().toStdString() };
+
+    cpr::Response r = cpr::Post(
+        cpr::Url{ "http://127.0.0.1:5000/synthesize" }, 
+        cpr::Multipart{
+            {"lyrics", rawLyricsString},
+            {"midi", midiFile}
+        },
+        cpr::VerifySsl(0)
+    );
+
+
 }
 
 void MainComponent::textEditorTextChanged(juce::TextEditor& texteditor)
@@ -356,5 +377,5 @@ void MainComponent::textEditorTextChanged(juce::TextEditor& texteditor)
     juce::StringRef whitespace = " ";
     int lyricsLength = editorValue.removeCharacters(whitespace).length();
 
-    LyricsCountLabel.setText(juce::String(lyricsLength), juce::dontSendNotification);
+    lyricsCountLabel.setText(juce::String(lyricsLength), juce::dontSendNotification);
 }

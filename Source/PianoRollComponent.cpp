@@ -45,8 +45,10 @@ void PianoRollComponent::resized()
 {
     auto r = getBounds();
     //button.setBounds(r.removeFromTop(40));
-    toolBarComponent->setBounds(r.removeFromTop(100));
-    keyboardComponent->setBounds(r.removeFromLeft(110));
+    //toolBarComponent->setBounds(r.removeFromTop(100));
+    //keyboardComponent->setBounds(r.removeFromLeft(110));
+    toolBarComponent->setBounds(r);
+    keyboardComponent->setBounds(r.removeFromLeft(100));
     gridComponent->setBounds(r);
     gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
 }

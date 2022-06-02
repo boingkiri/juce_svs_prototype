@@ -2,6 +2,12 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="NewProject\asset">
+      <UniqueIdentifier>{BB7CCC9C-4387-98E3-6D8F-0673FBA2700C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewProject\Source\Network">
+      <UniqueIdentifier>{EA99C85D-BE73-5109-DF1D-CF091E5A6156}</UniqueIdentifier>
+    </Filter>
     <Filter Include="NewProject\Source\PianoRoll">
       <UniqueIdentifier>{FB85EE10-C5AE-85CE-BAF0-6FCD9AD66276}</UniqueIdentifier>
     </Filter>
@@ -442,6 +448,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Client.cpp">
+      <Filter>NewProject\Source\Network</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\GridComponent.cpp">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClCompile>
@@ -2571,6 +2580,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Client.h">
+      <Filter>NewProject\Source\Network</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Constants.h">
       <Filter>NewProject\Source\PianoRoll</Filter>
     </ClInclude>
@@ -4994,8 +5006,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Source\NotoSansKR-Bold.otf">
-      <Filter>NewProject\Source</Filter>
+    <None Include="..\..\asset\NotoSansKR-Bold.otf">
+      <Filter>NewProject\asset</Filter>
     </None>
     <None Include="..\..\..\..\..\JUCE\modules\juce_audio_devices\native\oboe\CMakeLists.txt">
       <Filter>JUCE Modules\juce_audio_devices\native\oboe</Filter>

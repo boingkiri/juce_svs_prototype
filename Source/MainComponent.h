@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "PianoRollComponent.h"
+#include "Client.h"
 
 //==============================================================================
 /*
@@ -17,6 +18,8 @@ public:
     //==============================================================================
     MainComponent();
     ~MainComponent() override;
+
+    //void setNetworkClient();
 
     void setComponentModule(
         juce::Label* label, juce::TextEditor* editor, juce::TextButton* button,
@@ -124,6 +127,8 @@ private:
     void MIDIPathButtonClicked();
     void LyricsButtonClicked();
 
+    void sendButtonClicked();
+
     /*void playButtonClicked()
     {
         if ((state == Stopped) || (state == Paused)) changeState(Starting);
@@ -138,25 +143,37 @@ private:
 
     // ===================
     
+    // Networking component
+    //Client client;
+
     // GUI component
     // Piano Roll Component
     std::unique_ptr<PianoRollComponent> pianoRollComponent;
     //PianoRollComponent pianoRollComponent;
-    //juce::TextButton openButton;
+
     juce::TextButton savePathButton;
     juce::TextEditor savePathEditor;
     juce::Label savePathLabel;
-    //juce::TextButton playButton;
     juce::TextButton MIDIPathButton;
+
     juce::TextEditor MIDIPathEditor;
     juce::Label MIDINoteCountLabel;
     juce::Label MIDIPathLabel;
+    juce::TextButton lyricsButton;
+
+    juce::TextEditor lyricsEditor;
+    juce::Label lyricsLabel;
+    juce::Label lyricsCountLabel;
+
+    //juce::TextButton openButton;
+    //juce::TextButton playButton;
     //juce::TextButton stopButton;
-    juce::TextButton LyricsButton;
-    juce::TextEditor LyricsEditor;
-    //static juce::TextEditor LyricsEditor;
-    juce::Label LyricsLabel;
-    juce::Label LyricsCountLabel;
+
+
+
+    // Configure and send button
+    juce::TextButton configButton;
+    juce::TextButton sendButton;
 
     std::unique_ptr<juce::FileChooser> chooser;
 
