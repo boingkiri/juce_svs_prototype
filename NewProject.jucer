@@ -7,10 +7,6 @@
       <FILE id="u96yjg" name="stringUtils.cpp" compile="1" resource="0" file="Source/stringUtils.cpp"/>
       <FILE id="mxOal6" name="stringUtils.h" compile="0" resource="0" file="Source/stringUtils.h"/>
     </GROUP>
-    <GROUP id="{C2D5FDC6-9247-89AC-4485-EAB513330DA6}" name="Network">
-      <FILE id="MGjqdh" name="Client.cpp" compile="1" resource="0" file="Source/Client.cpp"/>
-      <FILE id="AAH386" name="Client.h" compile="0" resource="0" file="Source/Client.h"/>
-    </GROUP>
     <GROUP id="{E60D6A13-1457-1DFA-E5F4-825F17E5ED90}" name="PianoRoll">
       <FILE id="rSQc1a" name="Constants.h" compile="0" resource="0" file="Source/Constants.h"/>
       <FILE id="R6rar5" name="GridComponent.cpp" compile="1" resource="0"

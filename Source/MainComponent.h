@@ -2,7 +2,7 @@
 
 #include <JuceHeader.h>
 #include "PianoRollComponent.h"
-#include "Client.h"
+//#include "Client.h"
 #include "Waveplot.h"
 #include "stringUtils.h"
 

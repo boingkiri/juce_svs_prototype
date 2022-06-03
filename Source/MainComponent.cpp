@@ -2,7 +2,6 @@
 
 //==============================================================================
 MainComponent::MainComponent() 
-    //:state(Stopped),
     //thumbnailCache (5), // Number of thumbnails to store
     //thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
@@ -15,9 +14,7 @@ MainComponent::MainComponent()
     juce::LookAndFeel::getDefaultLookAndFeel().setDefaultSansSerifTypeface(myfont);
 
     // Set PianoRollComponent
-    //addAndMakeVisible(pianoRollComponent);
     pianoRollComponent = std::make_unique<PianoRollComponent>();
-    //this->addChildComponent(*pianoRollComponent, -1);
     addAndMakeVisible(*pianoRollComponent);
 
     // Set Waveplot
@@ -48,11 +45,8 @@ MainComponent::MainComponent()
 
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize(900, 600);
+    setSize(900, 900);
 
-    //formatManager.registerBasicFormats(); // It makes various audio file readable
-
-    //transportSource.addChangeListener(this);
     //thumbnail.addChangeListener(this);
 
     setAudioChannels(0, 2);
@@ -223,10 +217,6 @@ void MainComponent::resized()
     auto pianoRollBound = r.removeFromTop(400);
 
     pianoRollComponent->setBounds(pianoRollBound);
-
-    /// <summary>
-    /// ////
-    /// </summary>
     
     waveplotComponent->setBounds(r);
 
@@ -259,16 +249,6 @@ void MainComponent::savePathButtonClicked()
 
             if (file != juce::File{})
             {
-                /*auto* reader = formatManager.createReaderFor(file);
-
-                if (reader != nullptr)
-                {
-                    auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
-                    transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
-                    MIDIPathButton.setEnabled(true);
-                    thumbnail.setSource(new juce::FileInputSource(file));
-                    readerSource.reset(newSource.release());
-                }*/
                 const juce::String savePath = file.getFullPathName();
                 savePathEditor.setText(savePath);
             }

@@ -142,7 +142,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\stringUtils.cpp"/>
-    <ClCompile Include="..\..\Source\Client.cpp"/>
     <ClCompile Include="..\..\Source\GridComponent.cpp"/>
     <ClCompile Include="..\..\Source\KeyboardComponent.cpp"/>
     <ClCompile Include="..\..\Source\PianoRollComponent.cpp"/>
@@ -2113,7 +2112,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\stringUtils.h"/>
-    <ClInclude Include="..\..\Source\Client.h"/>
     <ClInclude Include="..\..\Source\Constants.h"/>
     <ClInclude Include="..\..\Source\GridComponent.h"/>
     <ClInclude Include="..\..\Source\KeyboardComponent.h"/>

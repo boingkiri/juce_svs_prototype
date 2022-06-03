@@ -11,7 +11,9 @@
 #include "Waveplot.h"
 
 Waveplot::Waveplot()
-    : state (Stopped)
+    : state(Stopped),
+    thumbnailCache(5),
+    thumbnail(512, formatManager, thumbnailCache)
 {
     addAndMakeVisible(&playButton);
     playButton.setButtonText("Play");
@@ -27,6 +29,9 @@ Waveplot::Waveplot()
 
     formatManager.registerBasicFormats();
     transportSource.addChangeListener(this);
+    thumbnail.addChangeListener(this);
+
+    setSize(150, 100);
 }
 
 Waveplot::~Waveplot()
@@ -42,9 +47,18 @@ void Waveplot::changeListenerCallback(juce::ChangeBroadcaster* source)
     {
         if (transportSource.isPlaying())
             changeState(Playing);
-        else
+        else if ((state == Stopping) || (state == Playing))
             changeState(Stopped);
+        else if (state == Pausing)
+            changeState(Paused);
     }
+    if (source == &thumbnail)
+        thumbnailChanged();
+}
+
+void Waveplot::thumbnailChanged()
+{
+    repaint();
 }
 
 void Waveplot::changeState(TransportState newState)
@@ -56,18 +70,29 @@ void Waveplot::changeState(TransportState newState)
         switch (state)
         {
             case Stopped:
+                playButton.setButtonText("Play");
+                stopButton.setButtonText("Stop");
                 stopButton.setEnabled(false);
-                playButton.setEnabled(true);
                 transportSource.setPosition(0.0);
                 break;
 
             case Starting:
-                playButton.setEnabled(false);
                 transportSource.start();
                 break;
 
             case Playing:
+                playButton.setButtonText("Pause");
+                stopButton.setButtonText("Stop");
                 stopButton.setEnabled(true);
+                break;
+
+            case Pausing:
+                transportSource.stop();
+                break;
+
+            case Paused:
+                playButton.setButtonText("Resume");
+                stopButton.setButtonText("Return to zero");
                 break;
 
             case Stopping:
@@ -101,27 +126,58 @@ void Waveplot::releaseResources()
 
 void Waveplot::playButtonClicked()
 {
-    changeState(Starting);
-    //if ((state == Stopped) || (state == Paused)) changeState(Starting);
-    //else if (state == Playing) changeState(Pausing);
+    if ((state == Stopped) || (state == Paused)) changeState(Starting);
+    else if (state == Playing) changeState(Pausing);
 }
 
 void Waveplot::stopButtonClicked()
 {
-    changeState(Stopping);
-    //if (state == Paused) changeState(Stopped);
-    //else changeState(Stopping);
+    if (state == Paused) changeState(Stopped);
+    else changeState(Stopping);
 }
 
 void Waveplot::paint(juce::Graphics& g)
 {
+    juce::Rectangle<int> thumbnailBounds(
+        10, 100, getWidth() - 20, getHeight() - 120);
+
+    if (thumbnail.getNumChannels() == 0)
+        paintIfNoFileLoaded(g, thumbnailBounds);
+    else
+        paintIfFileLoaded(g, thumbnailBounds);
+}
+
+void Waveplot::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+{
+    g.setColour(juce::Colours::darkgrey);
+    g.fillRect(thumbnailBounds);
+    g.setColour(juce::Colours::white);
+    g.drawFittedText("No File Loaded",
+        thumbnailBounds, juce::Justification::centred, 1);
+}
+
+void Waveplot::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+{
+    g.setColour(juce::Colours::white);
+    g.fillRect(thumbnailBounds);
+    g.setColour(juce::Colours::red);
+
+    thumbnail.drawChannels(
+        g,
+        thumbnailBounds,
+        0.0,
+        thumbnail.getTotalLength(),
+        1.0f
+    );
 }
 
 void Waveplot::resized()
 {
     auto r = getBounds();
-    playButton.setBounds(r.removeFromLeft(100));
-    stopButton.setBounds(r.removeFromLeft(100));
+    /*playButton.setBounds(r.removeFromLeft(100));
+    stopButton.setBounds(r.removeFromLeft(100));*/
+    playButton.setBounds(10, 40, getWidth() - 20, 20);
+    stopButton.setBounds(10, 70, getWidth() - 20, 20);
     
 }
 
@@ -136,5 +192,7 @@ void Waveplot::setWave(juce::File file)
         transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
         playButton.setEnabled(true);
         readerSource.reset(newSource.release());
+
+        thumbnail.setSource(new juce::FileInputSource(file));
     }
 }

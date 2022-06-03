@@ -36,6 +36,8 @@ private:
         Stopped,
         Starting,
         Playing,
+        Pausing,
+        Paused,
         Stopping
     };
 
@@ -47,6 +49,13 @@ private:
     juce::AudioTransportSource transportSource;
     TransportState state;
 
+    juce::AudioThumbnailCache thumbnailCache;
+    juce::AudioThumbnail thumbnail;
+
     void changeListenerCallback(juce::ChangeBroadcaster*) override;
     void changeState(TransportState);
+    void thumbnailChanged();
+    void paintIfFileLoaded(juce::Graphics&, const juce::Rectangle<int>&);
+    void paintIfNoFileLoaded(juce::Graphics&, const juce::Rectangle<int>&);
+
 };

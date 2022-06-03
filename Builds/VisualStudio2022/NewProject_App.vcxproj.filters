@@ -5,9 +5,6 @@
     <Filter Include="NewProject\utils">
       <UniqueIdentifier>{3C0844D9-F746-6EFD-9E03-DF84769A471F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NewProject\Network">
-      <UniqueIdentifier>{C8609724-16BD-86CF-CA14-90401E42B640}</UniqueIdentifier>
-    </Filter>
     <Filter Include="NewProject\PianoRoll">
       <UniqueIdentifier>{07A7DB46-18B5-58B7-7B8C-FE3ECCC98CB0}</UniqueIdentifier>
     </Filter>
@@ -456,9 +453,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\Source\stringUtils.cpp">
       <Filter>NewProject\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Client.cpp">
-      <Filter>NewProject\Network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\GridComponent.cpp">
       <Filter>NewProject\PianoRoll</Filter>
@@ -2594,9 +2588,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\stringUtils.h">
       <Filter>NewProject\utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Client.h">
-      <Filter>NewProject\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Constants.h">
       <Filter>NewProject\PianoRoll</Filter>
