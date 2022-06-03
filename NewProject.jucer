@@ -51,12 +51,10 @@
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
   <EXPORTFORMATS>
-    <VS2022 targetFolder="Builds/VisualStudio2022" externalLibraries="D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\build\lib\Debug\cpr.lib">
+    <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="NewProject" headerPath="D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\include&#10;D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\build\cpr_generated_includes&#10;D:\JUCE\Programming\Simple_Prototype\NewProject\external\curl\include"
-                       libraryPath="D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\build\bin\Debug"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="NewProject" headerPath="D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\include&#10;D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\build\cpr_generated_includes&#10;D:\JUCE\Programming\Simple_Prototype\NewProject\external\curl\include"
-                       libraryPath="D:\JUCE\Programming\Simple_Prototype\NewProject\external\cpr-master\build\bin\Debug"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="NewProject"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="NewProject"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../JUCE/modules"/>

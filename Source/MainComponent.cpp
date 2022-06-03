@@ -354,24 +354,40 @@ void MainComponent::LyricsButtonClicked()
 void MainComponent::sendButtonClicked() 
 {
     juce::Value lyricsString = lyricsEditor.getTextValue();
-    std::string rawLyricsString = lyricsString.toString().toStdString();
+    std::string rawLyricsString = lyricsString.toString().toUTF8();
+    
+    juce::File midifile = juce::File(MIDIPathEditor.getTextValue().toString().toStdString());
 
-    /*std::wstring convertedLyricsString;
+    const juce::URL modelURL = juce::URL("http://127.0.0.1:5000/synthesize")
+        .withParameter("lyrics", rawLyricsString)
+        .withFileToUpload("midi", midifile, "audio/midi");
+    
+    auto r = new juce::WebInputStream(modelURL, true);
+    bool success = r->connect(nullptr);
 
-    convertedLyricsString.assign(rawLyricsString.begin(), rawLyricsString.end());*/
+    juce::MemoryBlock wavMB(1024*1024*20);
+    r->read(wavMB.getData(), r->getTotalLength());
 
-    DBG(rawLyricsString);
-    cpr::File midiFile = cpr::File{ MIDIPathEditor.getTextValue().toString().toStdString() };
-
-    cpr::Response r = cpr::Post(
-        cpr::Url{ "http://127.0.0.1:5000/synthesize" }, 
-        cpr::Multipart{
-            {"lyrics", rawLyricsString},
-            {"midi", midiFile}
-        },
-        cpr::VerifySsl(0)
+    juce::File wavfile(
+        "D:/JUCE/Programming/Simple_Prototype/NewProject/result_wav.wav"
     );
 
+    if (wavfile.exists()) {
+        wavfile.deleteFile();
+    }
+
+    auto result = wavfile.create();
+
+    if (result.failed())
+    {
+        DBG("Creating wav file failed");
+    }
+    
+    juce::FileOutputStream stream(wavfile);
+    stream.write(wavMB.getData(), r->getTotalLength());
+    stream.flush();
+
+    waveplotComponent->setWave(wavfile);
 
 }
 

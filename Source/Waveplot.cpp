@@ -124,3 +124,17 @@ void Waveplot::resized()
     stopButton.setBounds(r.removeFromLeft(100));
     
 }
+
+void Waveplot::setWave(juce::File file)
+{
+    juce::AudioFormatReader* reader = 
+        formatManager.createReaderFor(file);
+
+    if (reader != nullptr)
+    {
+        auto newSource = std::make_unique<juce::AudioFormatReaderSource>(reader, true);
+        transportSource.setSource(newSource.get(), 0, nullptr, reader->sampleRate);
+        playButton.setEnabled(true);
+        readerSource.reset(newSource.release());
+    }
+}

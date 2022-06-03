@@ -27,6 +27,7 @@ public:
     void releaseResources();
     void playButtonClicked();
     void stopButtonClicked();
+    void setWave(juce::File);
 
 
 private:
