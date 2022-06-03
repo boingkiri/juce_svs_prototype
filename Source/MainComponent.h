@@ -3,13 +3,15 @@
 #include <JuceHeader.h>
 #include "PianoRollComponent.h"
 #include "Client.h"
+#include "Waveplot.h"
 
 //==============================================================================
 /*
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent  : public juce::AudioAppComponent, 
+class MainComponent  : 
+    public juce::AudioAppComponent, 
     public juce::ChangeListener,
     private juce::Timer,
     public juce::TextEditor::Listener
@@ -41,7 +43,7 @@ public:
     void changeListenerCallback(juce::ChangeBroadcaster* source) override
     {
         //if (source == &transportSource) transportSourceChanged();
-        if (source == &thumbnail) thumbnailChanged();
+        //if (source == &thumbnail) thumbnailChanged();
     }
 
     /*void transportSourceChanged()
@@ -81,70 +83,13 @@ private:
 
     void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* editor, juce::TextButton* button, int index);
 
-    //void changeState(TrasportState newState)
-    //{
-    //    if (state != newState) {
-    //        state = newState;
-
-    //        switch (state) {
-    //        case Stopped:
-    //            MIDIPathButton.setButtonText("Play");
-    //            stopButton.setButtonText("Stop");
-    //            stopButton.setEnabled(false);
-    //            //playButton.setEnabled(true);
-    //            transportSource.setPosition(0.0);
-    //            break;
-
-    //        case Starting:
-    //            //playButton.setEnabled(false);
-    //            transportSource.start();
-    //            break;
-
-    //        case Playing:
-    //            MIDIPathButton.setButtonText("Pause");
-    //            stopButton.setButtonText("Stop");
-    //            stopButton.setEnabled(true);
-    //            break;
-
-    //        case Pausing:
-    //            transportSource.stop();
-    //            break;
-    //        
-    //        case Paused:
-    //            MIDIPathButton.setButtonText("Resume");
-    //            stopButton.setButtonText("Return to Zero");
-    //            break;
-
-    //        case Stopping:
-    //            transportSource.stop();
-    //            break;
-    //        
-    //        }
-    //    }
-    //}
-
     void savePathButtonClicked();
     void MIDIPathButtonClicked();
     void LyricsButtonClicked();
 
     void sendButtonClicked();
 
-    /*void playButtonClicked()
-    {
-        if ((state == Stopped) || (state == Paused)) changeState(Starting);
-        else if (state == Playing) changeState(Pausing);
-    }
-
-    void stopButtonClicked()
-    {
-        if (state == Paused) changeState(Stopped);
-        else changeState(Stopping);
-    }*/
-
     // ===================
-    
-    // Networking component
-    //Client client;
 
     // GUI component
     // Piano Roll Component
@@ -165,12 +110,6 @@ private:
     juce::Label lyricsLabel;
     juce::Label lyricsCountLabel;
 
-    //juce::TextButton openButton;
-    //juce::TextButton playButton;
-    //juce::TextButton stopButton;
-
-
-
     // Configure and send button
     juce::TextButton configButton;
     juce::TextButton sendButton;
@@ -184,15 +123,13 @@ private:
     int MainComponent::readFontFile(juce::String fontPath, juce::MemoryBlock& buffer);
 
     // [members]
-    juce::AudioFormatManager formatManager;
-    std::unique_ptr<juce::AudioFormatReaderSource> readerSource;
-    juce::AudioTransportSource transportSource;
-    TrasportState state;
+    std::unique_ptr<Waveplot> waveplotComponent;
+    //Waveplot waveplotComponent;
     
     // Make window opening one or more audio sustainable. 
     // (It maintains thumbnail of audio when closing the window and reopening.)
-    juce::AudioThumbnailCache thumbnailCache; 
-    juce::AudioThumbnail thumbnail;
+    //juce::AudioThumbnailCache thumbnailCache; 
+    //juce::AudioThumbnail thumbnail;
 
     // [members]
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

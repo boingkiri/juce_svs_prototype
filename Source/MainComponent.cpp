@@ -2,12 +2,12 @@
 
 //==============================================================================
 MainComponent::MainComponent() 
-    :state(Stopped),
-    thumbnailCache (5), // Number of thumbnails to store
-    thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
+    //:state(Stopped),
+    //thumbnailCache (5), // Number of thumbnails to store
+    //thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
 
-;   // Set default font
+   // Set default font
     const juce::Typeface::Ptr myfont = juce::Typeface::createSystemTypefaceFor(
         BinaryData::NotoSansKRBold_otf,
         BinaryData::NotoSansKRBold_otfSize
@@ -19,6 +19,10 @@ MainComponent::MainComponent()
     pianoRollComponent = std::make_unique<PianoRollComponent>();
     //this->addChildComponent(*pianoRollComponent, -1);
     addAndMakeVisible(*pianoRollComponent);
+
+    // Set Waveplot
+    waveplotComponent = std::make_unique<Waveplot>();
+    addAndMakeVisible(*waveplotComponent);
     
     // Set Configure and send button
     setButtonComponent(&configButton, "Config");
@@ -46,10 +50,10 @@ MainComponent::MainComponent()
     // you add any child components.
     setSize(900, 600);
 
-    formatManager.registerBasicFormats(); // It makes various audio file readable
+    //formatManager.registerBasicFormats(); // It makes various audio file readable
 
-    transportSource.addChangeListener(this);
-    thumbnail.addChangeListener(this);
+    //transportSource.addChangeListener(this);
+    //thumbnail.addChangeListener(this);
 
     setAudioChannels(0, 2);
 
@@ -75,11 +79,6 @@ MainComponent::~MainComponent()
     this->removeAllChildren();
     shutdownAudio();
 }
-
-//void MainComponent::setNetworkClient() 
-//{
-//    network_test();
-//}
 
 
 void MainComponent::setComponentModule(
@@ -126,7 +125,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
 
     // For more details, see the help for AudioProcessor::prepareToPlay()
 
-    transportSource.prepareToPlay(samplesPerBlockExpected, sampleRate);
+    waveplotComponent->prepareToPlay(samplesPerBlockExpected, sampleRate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -137,13 +136,9 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
 
     // Right now we are not producing any data, in which case we need to clear the buffer
     // (to prevent the output of random noise)
-    if (readerSource.get() == nullptr)
-    {
-        bufferToFill.clearActiveBufferRegion();
-        return;
-    }
+    // 
     //bufferToFill.clearActiveBufferRegion();
-    transportSource.getNextAudioBlock(bufferToFill);
+    waveplotComponent->getNextAudioBlock(bufferToFill);
 }
 
 void MainComponent::releaseResources()
@@ -152,7 +147,7 @@ void MainComponent::releaseResources()
     // restarted due to a setting change.
 
     // For more details, see the help for AudioProcessor::releaseResources()
-    transportSource.releaseResources();
+    waveplotComponent->releaseResources();
 }
 
 //==============================================================================
@@ -168,38 +163,39 @@ void MainComponent::paint (juce::Graphics& g)
     //else MainComponent::paintIfFileLoaded(g, thumbnailBounds);
 
 }
-
-void MainComponent::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
-{
-    g.setColour(juce::Colours::darkgrey);
-    g.fillRect(thumbnailBounds);
-    g.setColour(juce::Colours::white);
-    g.drawFittedText("No file Loaded", thumbnailBounds, juce::Justification::centred, 1);
-}
-
-void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds) 
-{
-    g.setColour(juce::Colours::white);
-    g.fillRect(thumbnailBounds);
-
-    g.setColour(juce::Colours::red);
-
-    auto audioLength = (float)thumbnail.getTotalLength();
-    thumbnail.drawChannels(
-        g,
-        thumbnailBounds,
-        0.0,
-        audioLength,
-        1.0f
-    );
-
-    g.setColour(juce::Colours::green);
-
-    auto audioPosition = (float)transportSource.getCurrentPosition();
-    auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth() + (float)thumbnailBounds.getX();
-
-    g.drawLine(drawPosition, (float)thumbnailBounds.getY(), drawPosition, (float)thumbnailBounds.getBottom(), 2.0f);
-}
+//
+//void MainComponent::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
+//{
+//    g.setColour(juce::Colours::darkgrey);
+//    g.fillRect(thumbnailBounds);
+//    g.setColour(juce::Colours::white);
+//    g.drawFittedText("No file Loaded", thumbnailBounds, juce::Justification::centred, 1);
+//}
+//
+//void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds) 
+//{
+//    g.setColour(juce::Colours::white);
+//    g.fillRect(thumbnailBounds);
+//
+//    g.setColour(juce::Colours::red);
+//
+//    auto audioLength = (float)thumbnail.getTotalLength();
+//    thumbnail.drawChannels(
+//        g,
+//        thumbnailBounds,
+//        0.0,
+//        audioLength,
+//        1.0f
+//    );
+//
+//    g.setColour(juce::Colours::green);
+//
+//    auto audioPosition = (float)transportSource.getCurrentPosition();
+//    auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth() + (float)thumbnailBounds.getX();
+//
+//    g.drawLine(drawPosition, (float)thumbnailBounds.getY(), drawPosition, (float)thumbnailBounds.getBottom(), 2.0f);
+//
+//}
 
 void MainComponent::resized()
 {
@@ -224,7 +220,16 @@ void MainComponent::resized()
 
     r.removeFromTop(80);
     
-    pianoRollComponent->setBounds(r);
+    auto pianoRollBound = r.removeFromTop(400);
+
+    pianoRollComponent->setBounds(pianoRollBound);
+
+    /// <summary>
+    /// ////
+    /// </summary>
+    
+    waveplotComponent->setBounds(r);
+
     //pianoRollComponent->setBounds(getBounds().removeFromBottom(400));
     //pianoRollComponent->setBounds(getLocalBounds());
 }

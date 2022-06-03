@@ -3,33 +3,41 @@
 <JUCERPROJECT id="Uttj81" name="NewProject" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="EDEVpg" name="NewProject">
+    <GROUP id="{F7D285C5-E184-0DE2-2B7D-9742F1F64C5C}" name="utils">
+      <FILE id="u96yjg" name="stringUtils.cpp" compile="1" resource="0" file="Source/stringUtils.cpp"/>
+      <FILE id="mxOal6" name="stringUtils.h" compile="0" resource="0" file="Source/stringUtils.h"/>
+    </GROUP>
+    <GROUP id="{C2D5FDC6-9247-89AC-4485-EAB513330DA6}" name="Network">
+      <FILE id="MGjqdh" name="Client.cpp" compile="1" resource="0" file="Source/Client.cpp"/>
+      <FILE id="AAH386" name="Client.h" compile="0" resource="0" file="Source/Client.h"/>
+    </GROUP>
+    <GROUP id="{E60D6A13-1457-1DFA-E5F4-825F17E5ED90}" name="PianoRoll">
+      <FILE id="rSQc1a" name="Constants.h" compile="0" resource="0" file="Source/Constants.h"/>
+      <FILE id="R6rar5" name="GridComponent.cpp" compile="1" resource="0"
+            file="Source/GridComponent.cpp"/>
+      <FILE id="AKmwph" name="GridComponent.h" compile="0" resource="0" file="Source/GridComponent.h"/>
+      <FILE id="g7NWpF" name="KeyboardComponent.cpp" compile="1" resource="0"
+            file="Source/KeyboardComponent.cpp"/>
+      <FILE id="FPEnCz" name="KeyboardComponent.h" compile="0" resource="0"
+            file="Source/KeyboardComponent.h"/>
+      <FILE id="FRgI1p" name="PianoRollComponent.cpp" compile="1" resource="0"
+            file="Source/PianoRollComponent.cpp"/>
+      <FILE id="khMnoX" name="PianoRollComponent.h" compile="0" resource="0"
+            file="Source/PianoRollComponent.h"/>
+      <FILE id="ylYiT3" name="ToolBarComponent.cpp" compile="1" resource="0"
+            file="Source/ToolBarComponent.cpp"/>
+      <FILE id="NlsIDN" name="ToolBarComponent.h" compile="0" resource="0"
+            file="Source/ToolBarComponent.h"/>
+    </GROUP>
+    <GROUP id="{FF583C7F-DB4E-94A7-0A5D-1B6EE7255655}" name="WavePlot">
+      <FILE id="f5wdKa" name="Waveplot.cpp" compile="1" resource="0" file="Source/Waveplot.cpp"/>
+      <FILE id="lMNlrd" name="Waveplot.h" compile="0" resource="0" file="Source/Waveplot.h"/>
+    </GROUP>
     <GROUP id="{352A8EC8-2008-EB57-BAC5-5F5D08066B26}" name="asset">
       <FILE id="vRlYwY" name="NotoSansKR-Bold.otf" compile="0" resource="1"
             file="asset/NotoSansKR-Bold.otf"/>
     </GROUP>
     <GROUP id="{574C002E-FBD7-6CDA-C487-F5AAEF030323}" name="Source">
-      <GROUP id="{C2D5FDC6-9247-89AC-4485-EAB513330DA6}" name="Network">
-        <FILE id="MGjqdh" name="Client.cpp" compile="1" resource="0" file="Source/Client.cpp"/>
-        <FILE id="AAH386" name="Client.h" compile="0" resource="0" file="Source/Client.h"/>
-      </GROUP>
-      <GROUP id="{E60D6A13-1457-1DFA-E5F4-825F17E5ED90}" name="PianoRoll">
-        <FILE id="rSQc1a" name="Constants.h" compile="0" resource="0" file="Source/Constants.h"/>
-        <FILE id="R6rar5" name="GridComponent.cpp" compile="1" resource="0"
-              file="Source/GridComponent.cpp"/>
-        <FILE id="AKmwph" name="GridComponent.h" compile="0" resource="0" file="Source/GridComponent.h"/>
-        <FILE id="g7NWpF" name="KeyboardComponent.cpp" compile="1" resource="0"
-              file="Source/KeyboardComponent.cpp"/>
-        <FILE id="FPEnCz" name="KeyboardComponent.h" compile="0" resource="0"
-              file="Source/KeyboardComponent.h"/>
-        <FILE id="FRgI1p" name="PianoRollComponent.cpp" compile="1" resource="0"
-              file="Source/PianoRollComponent.cpp"/>
-        <FILE id="khMnoX" name="PianoRollComponent.h" compile="0" resource="0"
-              file="Source/PianoRollComponent.h"/>
-        <FILE id="ylYiT3" name="ToolBarComponent.cpp" compile="1" resource="0"
-              file="Source/ToolBarComponent.cpp"/>
-        <FILE id="NlsIDN" name="ToolBarComponent.h" compile="0" resource="0"
-              file="Source/ToolBarComponent.h"/>
-      </GROUP>
       <FILE id="eezIAX" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="cLQWiU" name="MIDIProcessor.cpp" compile="1" resource="0"
             file="Source/MIDIProcessor.cpp"/>

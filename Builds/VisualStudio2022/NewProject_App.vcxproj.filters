@@ -2,14 +2,20 @@
 
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="NewProject\utils">
+      <UniqueIdentifier>{3C0844D9-F746-6EFD-9E03-DF84769A471F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewProject\Network">
+      <UniqueIdentifier>{C8609724-16BD-86CF-CA14-90401E42B640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewProject\PianoRoll">
+      <UniqueIdentifier>{07A7DB46-18B5-58B7-7B8C-FE3ECCC98CB0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewProject\WavePlot">
+      <UniqueIdentifier>{6BEB1BD6-2F52-1E66-4EA1-9A9760A28270}</UniqueIdentifier>
+    </Filter>
     <Filter Include="NewProject\asset">
       <UniqueIdentifier>{BB7CCC9C-4387-98E3-6D8F-0673FBA2700C}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NewProject\Source\Network">
-      <UniqueIdentifier>{EA99C85D-BE73-5109-DF1D-CF091E5A6156}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="NewProject\Source\PianoRoll">
-      <UniqueIdentifier>{FB85EE10-C5AE-85CE-BAF0-6FCD9AD66276}</UniqueIdentifier>
     </Filter>
     <Filter Include="NewProject\Source">
       <UniqueIdentifier>{CBA2DCCD-1D2C-5CB2-5048-C7D8353D0443}</UniqueIdentifier>
@@ -448,20 +454,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\stringUtils.cpp">
+      <Filter>NewProject\utils</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Client.cpp">
-      <Filter>NewProject\Source\Network</Filter>
+      <Filter>NewProject\Network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\GridComponent.cpp">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\KeyboardComponent.cpp">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\PianoRollComponent.cpp">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\ToolBarComponent.cpp">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Waveplot.cpp">
+      <Filter>NewProject\WavePlot</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>NewProject\Source</Filter>
@@ -2580,23 +2592,29 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\stringUtils.h">
+      <Filter>NewProject\utils</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Client.h">
-      <Filter>NewProject\Source\Network</Filter>
+      <Filter>NewProject\Network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Constants.h">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\GridComponent.h">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\KeyboardComponent.h">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\PianoRollComponent.h">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\ToolBarComponent.h">
-      <Filter>NewProject\Source\PianoRoll</Filter>
+      <Filter>NewProject\PianoRoll</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Waveplot.h">
+      <Filter>NewProject\WavePlot</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MIDIProcessor.h">
       <Filter>NewProject\Source</Filter>
