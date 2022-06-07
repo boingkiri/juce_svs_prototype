@@ -2,8 +2,6 @@
 
 //==============================================================================
 MainComponent::MainComponent() 
-    //thumbnailCache (5), // Number of thumbnails to store
-    //thumbnail (512, formatManager, thumbnailCache) // Type of ChangeBroadcaster. Listener can be attached.
 {
 
    // Set default font
@@ -46,8 +44,6 @@ MainComponent::MainComponent()
     // Make sure you set the size of the component after
     // you add any child components.
     setSize(900, 900);
-
-    //thumbnail.addChangeListener(this);
 
     setAudioChannels(0, 2);
 
@@ -150,46 +146,7 @@ void MainComponent::paint (juce::Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
 
-    // You can add your drawing code here!
-    //juce::Rectangle<int> thumbnailBounds(10, 100, getWidth() - 20, getHeight() - 120);
-
-    //if (thumbnail.getNumChannels() == 0) MainComponent::paintIfNoFileLoaded(g, thumbnailBounds);
-    //else MainComponent::paintIfFileLoaded(g, thumbnailBounds);
-
 }
-//
-//void MainComponent::paintIfNoFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds)
-//{
-//    g.setColour(juce::Colours::darkgrey);
-//    g.fillRect(thumbnailBounds);
-//    g.setColour(juce::Colours::white);
-//    g.drawFittedText("No file Loaded", thumbnailBounds, juce::Justification::centred, 1);
-//}
-//
-//void MainComponent::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& thumbnailBounds) 
-//{
-//    g.setColour(juce::Colours::white);
-//    g.fillRect(thumbnailBounds);
-//
-//    g.setColour(juce::Colours::red);
-//
-//    auto audioLength = (float)thumbnail.getTotalLength();
-//    thumbnail.drawChannels(
-//        g,
-//        thumbnailBounds,
-//        0.0,
-//        audioLength,
-//        1.0f
-//    );
-//
-//    g.setColour(juce::Colours::green);
-//
-//    auto audioPosition = (float)transportSource.getCurrentPosition();
-//    auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth() + (float)thumbnailBounds.getX();
-//
-//    g.drawLine(drawPosition, (float)thumbnailBounds.getY(), drawPosition, (float)thumbnailBounds.getBottom(), 2.0f);
-//
-//}
 
 void MainComponent::resized()
 {
@@ -237,12 +194,13 @@ void MainComponent::setComponentPosition(juce::Label* label, juce::TextEditor* e
 void MainComponent::savePathButtonClicked()
 {
     chooser = std::make_unique<juce::FileChooser>(
-        "Select a MIDI file to play..",
+        "Select a path to save..",
         juce::File{},
-        "*.mid"
+        "*.wav"
         );
-    auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
-
+    //auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
+    auto chooserFlags = juce::FileBrowserComponent::saveMode;
+    
     chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
         {
             auto file = fc.getResult();
@@ -250,7 +208,7 @@ void MainComponent::savePathButtonClicked()
             if (file != juce::File{})
             {
                 const juce::String savePath = file.getFullPathName();
-                savePathEditor.setText(savePath);
+                savePathEditor.setText(savePath.replaceCharacter('\\', '/'));
             }
         });
 }
@@ -349,7 +307,8 @@ void MainComponent::sendButtonClicked()
     r->read(wavMB.getData(), r->getTotalLength());
 
     juce::File wavfile(
-        "D:/JUCE/Programming/Simple_Prototype/NewProject/result_wav.wav"
+        //"D:/JUCE/Programming/Simple_Prototype/NewProject/result_wav.wav"
+        savePathEditor.getText()
     );
 
     if (wavfile.exists()) {
