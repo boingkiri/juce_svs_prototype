@@ -29,7 +29,8 @@ public:
     int scrollButtonWidth = 0;
     //juce::Range<float> getKeyPosition(int midiNoteNumber, float targetKeyWidth);
     //juce::Range<float> getRectangleForKey(int midiNoteNumber, float targetKeyWidth);
-
-
+    juce::Range<float> KeyboardComponent::getKeyPosition(int midiNoteNumber, float targetKeyWidth) const;
+    juce::Rectangle<float> KeyboardComponent::getRectangleForKey(int note) const;
+    float getKeyWidthModifier(int midiNoteNumber) const;
 
 };
