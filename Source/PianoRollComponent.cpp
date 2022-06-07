@@ -47,23 +47,24 @@ void PianoRollComponent::resized()
     //button.setBounds(r.removeFromTop(40));
     //toolBarComponent->setBounds(r.removeFromTop(100));
     //keyboardComponent->setBounds(r.removeFromLeft(110));
-    toolBarComponent->setBounds(r);
+    toolBarComponent->setBounds(r.removeFromTop(60));
     keyboardComponent->setBounds(r.removeFromLeft(100));
     gridComponent->setBounds(r);
     gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
+
 }
 
 void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juce::MouseWheelDetails& wheel)
 {   
-    if (toolBarComponent->isMouseOver())
+
+    if (toolBarComponent->isMouseOver()) {
         return;
+    }
     auto amount = (keyboardComponent->getOrientation() == KeyboardComponent::horizontalKeyboard && wheel.deltaX != 0)
         ? wheel.deltaX : (keyboardComponent->getOrientation() == KeyboardComponent::verticalKeyboardFacingLeft ? wheel.deltaY
             : -wheel.deltaY);
 
-    //keyboardComponent->setLowestVisibleKey(keyboardComponent->firstkey - amount * keyboardComponent->keyWidth);
-    keyboardComponent->setLowestVisibleKey(keyboardComponent->getLowestVisibleKey() - amount * keyboardComponent->keyWidth);
 
-    //gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
-    gridComponent->updateNoteLineRanges(keyboardComponent->getLowestVisibleKey());
+    keyboardComponent->setLowestVisibleKey(keyboardComponent->getLowestVisibleKey() - amount * keyboardComponent->getKeyWidth());
+    gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
 }

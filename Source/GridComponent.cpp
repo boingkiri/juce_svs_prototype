@@ -9,6 +9,7 @@
 */
 
 #include "GridComponent.h"
+
 GridComponent::GridComponent()
 {
     for (int i = 0; i <= 127; ++i)
