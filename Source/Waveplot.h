@@ -13,7 +13,8 @@
 
 class Waveplot:
     public juce::Component,
-    private juce::ChangeListener
+    private juce::ChangeListener,
+    private juce::Timer
 {
 public:
     Waveplot();
@@ -58,4 +59,5 @@ private:
     void paintIfFileLoaded(juce::Graphics&, const juce::Rectangle<int>&);
     void paintIfNoFileLoaded(juce::Graphics&, const juce::Rectangle<int>&);
 
+    void timerCallback() override;
 };

@@ -32,6 +32,8 @@ Waveplot::Waveplot()
     thumbnail.addChangeListener(this);
 
     setSize(150, 100);
+
+    startTimer(40);
 }
 
 Waveplot::~Waveplot()
@@ -160,8 +162,10 @@ void Waveplot::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& 
 {
     g.setColour(juce::Colours::white);
     g.fillRect(thumbnailBounds);
+
     g.setColour(juce::Colours::red);
 
+    auto audioLength = (float)thumbnail.getTotalLength();
     thumbnail.drawChannels(
         g,
         thumbnailBounds,
@@ -169,6 +173,17 @@ void Waveplot::paintIfFileLoaded(juce::Graphics& g, const juce::Rectangle<int>& 
         thumbnail.getTotalLength(),
         1.0f
     );
+
+    g.setColour(juce::Colours::green);
+
+    auto audioPosition = (float)transportSource.getCurrentPosition();
+    auto drawPosition = (audioPosition / audioLength) * (float)thumbnailBounds.getWidth()
+        + (float)thumbnailBounds.getX();
+
+    g.drawLine(drawPosition, (float)thumbnailBounds.getY(),
+        drawPosition,
+        (float)thumbnailBounds.getBottom(),
+        2.0f);
 }
 
 void Waveplot::resized()
@@ -195,4 +210,9 @@ void Waveplot::setWave(juce::File file)
 
         thumbnail.setSource(new juce::FileInputSource(file));
     }
+}
+
+void Waveplot::timerCallback()
+{
+    repaint();
 }
