@@ -25,6 +25,9 @@ public:
     void paint(juce::Graphics& g) override;
     void resized() override;
     void mouseWheelMove(const juce::MouseEvent&, const juce::MouseWheelDetails&) override;
+    
+    // Grid Component
+    void setMIDIFile(juce::MidiFile&);
 
 private:
     std::unique_ptr<KeyboardComponent> keyboardComponent;

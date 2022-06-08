@@ -219,7 +219,8 @@ void MainComponent::MIDIPathButtonClicked()
         "Select a MIDI file to play..",
         juce::File{},
         "*.mid"
-        );
+    );
+
     auto chooserFlags = juce::FileBrowserComponent::openMode | juce::FileBrowserComponent::canSelectFiles;
 
     chooser->launchAsync(chooserFlags, [this](const juce::FileChooser& fc)
@@ -239,6 +240,8 @@ void MainComponent::MIDIPathButtonClicked()
                 }
                 else {
                     jassert(MIDIfile.getNumTracks() == 1);
+
+                    pianoRollComponent->setMIDIFile(MIDIfile);
 
                     const juce::MidiMessageSequence* midiseq = MIDIfile.getTrack(0);
                     int numOfNote = midiseq->getNumEvents();

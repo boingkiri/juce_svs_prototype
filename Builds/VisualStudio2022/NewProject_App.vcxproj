@@ -144,6 +144,7 @@
     <ClCompile Include="..\..\Source\stringUtils.cpp"/>
     <ClCompile Include="..\..\Source\GridComponent.cpp"/>
     <ClCompile Include="..\..\Source\KeyboardComponent.cpp"/>
+    <ClCompile Include="..\..\Source\NoteComponent.cpp"/>
     <ClCompile Include="..\..\Source\PianoRollComponent.cpp"/>
     <ClCompile Include="..\..\Source\ToolBarComponent.cpp"/>
     <ClCompile Include="..\..\Source\Waveplot.cpp"/>
@@ -2115,6 +2116,7 @@
     <ClInclude Include="..\..\Source\Constants.h"/>
     <ClInclude Include="..\..\Source\GridComponent.h"/>
     <ClInclude Include="..\..\Source\KeyboardComponent.h"/>
+    <ClInclude Include="..\..\Source\NoteComponent.h"/>
     <ClInclude Include="..\..\Source\PianoRollComponent.h"/>
     <ClInclude Include="..\..\Source\ToolBarComponent.h"/>
     <ClInclude Include="..\..\Source\Waveplot.h"/>

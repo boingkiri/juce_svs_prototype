@@ -17,5 +17,8 @@ class ToolBarComponent :
 public:
     ToolBarComponent();
     ~ToolBarComponent() override;
+
+    void resized() override;
 private:
+    std::unique_ptr<juce::TextButton> midiSave;
 };

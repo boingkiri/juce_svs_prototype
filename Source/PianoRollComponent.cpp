@@ -34,7 +34,7 @@ PianoRollComponent::PianoRollComponent()
 
 PianoRollComponent::~PianoRollComponent()
 {
-
+    this->removeAllChildren();
 }
 
 void PianoRollComponent::paint(juce::Graphics& g) 
@@ -44,9 +44,6 @@ void PianoRollComponent::paint(juce::Graphics& g)
 void PianoRollComponent::resized() 
 {
     auto r = getBounds();
-    //button.setBounds(r.removeFromTop(40));
-    //toolBarComponent->setBounds(r.removeFromTop(100));
-    //keyboardComponent->setBounds(r.removeFromLeft(110));
     toolBarComponent->setBounds(r.removeFromTop(60));
     keyboardComponent->setBounds(r.removeFromLeft(100));
     gridComponent->setBounds(r);
@@ -67,4 +64,9 @@ void PianoRollComponent::mouseWheelMove(const juce::MouseEvent& event, const juc
 
     keyboardComponent->setLowestVisibleKey(keyboardComponent->getLowestVisibleKey() - amount * keyboardComponent->getKeyWidth());
     gridComponent->updateNoteLineRanges(keyboardComponent->getKeyStartPosition(0));
+}
+
+void PianoRollComponent::setMIDIFile(juce::MidiFile& midiFile)
+{
+    gridComponent->setMidiFile(midiFile);
 }

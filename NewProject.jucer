@@ -16,6 +16,9 @@
             file="Source/KeyboardComponent.cpp"/>
       <FILE id="FPEnCz" name="KeyboardComponent.h" compile="0" resource="0"
             file="Source/KeyboardComponent.h"/>
+      <FILE id="C6L2x6" name="NoteComponent.cpp" compile="1" resource="0"
+            file="Source/NoteComponent.cpp"/>
+      <FILE id="a42Xwv" name="NoteComponent.h" compile="0" resource="0" file="Source/NoteComponent.h"/>
       <FILE id="FRgI1p" name="PianoRollComponent.cpp" compile="1" resource="0"
             file="Source/PianoRollComponent.cpp"/>
       <FILE id="khMnoX" name="PianoRollComponent.h" compile="0" resource="0"
