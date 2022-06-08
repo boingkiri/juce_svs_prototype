@@ -16,7 +16,8 @@
 #include "NoteComponent.h"
 
 class GridComponent :
-    public juce::Component
+    public juce::Component,
+    public juce::MouseListener
 {
 
 public:
@@ -34,13 +35,22 @@ public:
     int getLastTimestamp();
     int getNoteBy(int ScreenPosition);
 
+    int convertStamptoPosition(int stamp);
+    int convertPositiontoStamp(int position);
+    
+
 private:
     // The index of this OwnedArray will refer to a **midi note number**
     // In order to get the y values of the note line of note number 60,
     // we can call noteLineRanges[60]
     juce::OwnedArray<juce::Range<float>> noteLineRanges;
     juce::MidiFile midiFile = juce::MidiFile{};
-    std::vector<std::unique_ptr<NoteComponent>> noteVector;
+    std::vector<std::unique_ptr<NoteComponent>> noteVector = {};
+
+    //void setStampBy(juce::Rectangle<int>);
+    void mouseDrag(const juce::MouseEvent& event) override;
+
+    void updateBounds(int i);
 
     void test();
 

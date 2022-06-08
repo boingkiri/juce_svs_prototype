@@ -12,12 +12,11 @@
 #include "noteComponent.h"
 
 //==============================================================================
-NoteComponent::NoteComponent(GridComponent* gridComponent, int note, int noteOnTime, int noteOffTime)
+NoteComponent::NoteComponent(int note, int noteOnTime, int noteOffTime)
 {
     // In your constructor, you should add any child components, and
     // initialise any special settings that your component needs.
 
-    parentGrid = gridComponent;
     noteNum = note;
     noteOnStamp = noteOnTime;
     noteOffStamp = noteOffTime;
@@ -38,21 +37,6 @@ NoteComponent::~NoteComponent()
     this->removeAllChildren();
 }
 
-int NoteComponent::convertStamptoPosition(int stamp)
-{
-    int gridWidth = parentGrid->getWidth();
-    int gridX = parentGrid->getX();
-    int lastStamp = parentGrid->getLastTimestamp();
-    return (int)((float)stamp / (float)lastStamp * (float) gridWidth) + gridX;
-}
-
-int NoteComponent::convertPositiontoStamp(int position)
-{
-    int gridWidth = parentGrid->getWidth();
-    int gridX = parentGrid->getX();
-    int lastStamp = parentGrid->getLastTimestamp();
-    return (int)((position - gridX) / gridWidth) * lastStamp;
-}
 
 void NoteComponent::paint (juce::Graphics& g)
 {
@@ -96,67 +80,4 @@ void NoteComponent::resized()
 
     startComponent.setBounds(startComponentBounds);
     endComponent.setBounds(endComponentBounds);
-}
-
-void NoteComponent::mouseDrag(const juce::MouseEvent& event)
-{
-    auto rec = juce::Rectangle<int>();
-
-    // Modify length of note by start position
-    if (event.eventComponent == &startComponent) 
-    {
-        auto originalEndPos = this->getX() + this->getWidth();
-        auto modifiedStartPos = event.mouseDownPosition.getX();
-        rec = juce::Rectangle<int>(modifiedStartPos, this->getY(), originalEndPos, this->getHeight());
-    }
-    // Modify length of note by end position
-    else if (event.eventComponent == &endComponent)
-    {
-        auto originalStartPos = this->getX();
-        auto modifiedEndPos = event.mouseDownPosition.getX();
-        rec = juce::Rectangle<int>(originalStartPos, this->getY(), modifiedEndPos, this->getHeight());
-    }
-    // Modify note itself
-    else if (event.eventComponent == this)
-    {
-        auto modifiedNote = event.mouseDownPosition.getY();
-        juce::Range<float> range = parentGrid->getRangeBy(noteNum);
-
-        if (!range.contains(modifiedNote))
-        {
-            noteNum = parentGrid->getNoteBy(modifiedNote);
-            juce::Range<float> range = parentGrid->getRangeBy(noteNum);
-            rec = juce::Rectangle<int>
-                (
-                    this->getX(),
-                    range.getStart(),
-                    this->getWidth(),
-                    range.getLength()
-                );
-        }
-        else {
-            rec = getBounds();
-        }
-    }
-    jassert(rec != juce::Rectangle<int>());
-    
-    setStampBy(rec);
-    this->setBounds(rec);
-}
-
-void NoteComponent::setStampBy(juce::Rectangle<int> rec)
-{
-    auto startPos = rec.getX();
-    auto endPos = rec.getX() + rec.getWidth();
-
-    noteOnStamp = convertPositiontoStamp(startPos);
-    noteOffStamp = convertPositiontoStamp(endPos);
-}
-
-void NoteComponent::updateBounds()
-{
-    juce::Range<float> heightRange = parentGrid->getRangeBy(noteNum);
-    this->setBounds(this->getX(), heightRange.getStart(), this->getWidth(), heightRange.getLength());
-
-    repaint();
 }

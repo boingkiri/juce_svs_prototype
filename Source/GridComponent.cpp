@@ -12,6 +12,7 @@
 
 GridComponent::GridComponent()
 {
+    this->setTitle("GridComponent");
     for (int i = 0; i <= 127; ++i)
         noteLineRanges.add(new juce::Range<float>(0, constants::noteLineWidth));
 
@@ -33,7 +34,7 @@ void GridComponent::updateNoteLineRanges(float firstKeyStartPosition)
     
     for (int i = 0; i <= noteVector.size(); i++)
     {
-        noteVector[i]->updateBounds();
+        updateBounds(i);
     }
 
     repaint();
@@ -136,7 +137,9 @@ void GridComponent::test()
 
 
     std::unique_ptr<NoteComponent> noteComponent =
-        std::make_unique<NoteComponent>(this, 40, noteOnStamp, noteOffstamp);
+        std::make_unique<NoteComponent>(40, noteOnStamp, noteOffstamp);
+
+    noteComponent->setTitle("TEST");
 
     noteVector.push_back(noteComponent);
 
@@ -191,4 +194,79 @@ int GridComponent::getNoteBy (int ScreenPosition)
         }
     }
     jassertfalse;
+}
+
+
+int GridComponent::convertStamptoPosition(int stamp)
+{
+    int gridWidth = getWidth();
+    int gridX = getX();
+    int lastStamp = getLastTimestamp();
+    return (int)((float)stamp / (float)lastStamp * (float)gridWidth) + gridX;
+}
+
+int GridComponent::convertPositiontoStamp(int position)
+{
+    int gridWidth = getWidth();
+    int gridX = getX();
+    int lastStamp = getLastTimestamp();
+    return (int)((position - gridX) / gridWidth) * lastStamp;
+}
+
+
+void GridComponent::updateBounds(int i)
+{
+    juce::Range<float> heightRange = *noteLineRanges[i];
+    this->setBounds(this->getX(), heightRange.getStart(), this->getWidth(), heightRange.getLength());
+
+    repaint();
+}
+
+
+void GridComponent::mouseDrag(const juce::MouseEvent& event)
+{
+    DBG(event.eventComponent->getTitle());
+
+    //auto rec = juce::Rectangle<int>();
+
+    //// Modify length of note by start position
+    //if (event.eventComponent == &startComponent)
+    //{
+    //    auto originalEndPos = this->getX() + this->getWidth();
+    //    auto modifiedStartPos = event.mouseDownPosition.getX();
+    //    rec = juce::Rectangle<int>(modifiedStartPos, this->getY(), originalEndPos, this->getHeight());
+    //}
+    //// Modify length of note by end position
+    //else if (event.eventComponent == &endComponent)
+    //{
+    //    auto originalStartPos = this->getX();
+    //    auto modifiedEndPos = event.mouseDownPosition.getX();
+    //    rec = juce::Rectangle<int>(originalStartPos, this->getY(), modifiedEndPos, this->getHeight());
+    //}
+    //// Modify note itself
+    //else if (event.eventComponent == this)
+    //{
+    //    auto modifiedNote = event.mouseDownPosition.getY();
+    //    juce::Range<float> range = parentGrid->getRangeBy(noteNum);
+
+    //    if (!range.contains(modifiedNote))
+    //    {
+    //        noteNum = parentGrid->getNoteBy(modifiedNote);
+    //        juce::Range<float> range = parentGrid->getRangeBy(noteNum);
+    //        rec = juce::Rectangle<int>
+    //            (
+    //                this->getX(),
+    //                range.getStart(),
+    //                this->getWidth(),
+    //                range.getLength()
+    //                );
+    //    }
+    //    else {
+    //        rec = getBounds();
+    //    }
+    //}
+    //jassert(rec != juce::Rectangle<int>());
+
+    //setStampBy(rec);
+    //this->setBounds(rec);
 }
